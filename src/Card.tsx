@@ -3,7 +3,7 @@ import DateIcon from "./assets/icons/date_24px.svg?react";
 import Person from "./assets/person.jpg";
 
 function Card() {
-    
+
     return <>
     <div className="flex flex-col items-start">
         <CardHeader />
@@ -17,6 +17,7 @@ function Card() {
     </div>
     </>
 }
+
 
 
 
