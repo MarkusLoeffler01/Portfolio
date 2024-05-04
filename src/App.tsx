@@ -1,14 +1,20 @@
-import { useState } from 'react'
+import { useState, lazy, useEffect } from 'react'
+import { useFetch } from 'react-async'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import "./css/fonts.css";
 import Card from './Card';
+import Tab from "./section/Tab";
+import { Comment } from './types/guestbook'
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return <Card />
+
+  return <>
+    <Card />
+    <Tab />
+  </>
 }
 
 export default App
