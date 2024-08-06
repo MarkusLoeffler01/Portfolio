@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  width: 100%;
 }
 
 .logo {
@@ -28,7 +29,7 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
+  .logo.react.spin {
     animation: logo-spin infinite 20s linear;
   }
 }
@@ -39,4 +40,16 @@
 
 .read-the-docs {
   color: #888;
+}
+
+
+/*! Carousel naviagtion buttons down. Move pls */
+button.MuiButtonBase-root > svg {
+  z-index: 9999999;
+}
+
+/*! also move */
+.MuiSelect-select {
+  border-color: "#FFFFFF" !important;
+  border-top-color: "#FFFFFF" !important;
 }

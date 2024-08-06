@@ -1,0 +1,18 @@
+.logo-container {
+    position: relative;
+    width: 200px; /* Passen Sie die Größe des Containers an */
+    height: 200px; /* Passen Sie die Größe des Containers an */
+  }
+
+.typescript, .javascript {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+}
+
+.javascript {
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    transform: translate(50%, -50%) rotate(45deg);
+    top: 0;
+    left: 0;
+}
