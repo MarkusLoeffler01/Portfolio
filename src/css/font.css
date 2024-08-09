@@ -2,3 +2,8 @@
     font-family: Roboto;
     src: local("Roboto"), url(../assets/fonts/roboto/Roboto-Regular.ttf) format("truetype");
 }
+
+@font-face {
+    font-family: Pacifico;
+    src: local("Pacifico"), url(../assets/fonts/pacifico/Pacifico-Regular.ttf) format("truetype");
+}
