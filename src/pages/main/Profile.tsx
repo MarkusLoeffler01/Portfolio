@@ -111,10 +111,10 @@ const CV = () => {
 
 
 
-    return <Box className="container flex flex-row w-[50vw] p-5">
-                <Box className="flex flex-col w-full flex-grow flex-shrink basis-1/2 min-w-0">
+    return <Box className="container flex flex-row w-[50vw] p-5 rounded-full">
+                <Box className="flex flex-col w-full flex-grow flex-shrink basis-1/2 min-w-0 rounded-full">
                     {/* Section 1, left */}
-                    <Box className="w-full border-2 h-full">
+                    <Box className="w-full border-2 h-full rounded-l-lg">
                         <Section title="&ensp;Persönliche Daten &ensp;">
                             {val.map(({prop, value}, index) => <Info key={index} prop={prop} value={value} />)}
                         </Section>
@@ -126,7 +126,7 @@ const CV = () => {
                 </Box>
                 <Box className="flex flex-col w-full flex-grow flex-shrink basis-1/2 min-w-0">
                     {/* Section 2, right */}
-                    <Box className="w-full border-2 h-full">
+                    <Box className="w-full border-2 h-full rounded-r-lg">
                         <div className="flex flex-1 justify-end">
                             <div className="w-[160px] h-[160px] rounded-full overflow-hidden border-4 border-gray-300 mr-5 mt-5">
                                 <img className="object-cover w-full h-full" src={Markus} />
