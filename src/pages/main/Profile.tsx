@@ -173,8 +173,9 @@ const Biography = () => (
             Links findest du meinen Lebenslauf und unten weitere Informationen über mich. Wie z.B. meine Skill-Matrix, meine Projekte und meine Kontaktdaten.
             <br />
             <br />
-            <div className="flex items-end">
-                Ich liebe React, weil man den meisten nur einmal modular schreiben, und dann immer wiederverwenden kann. Damit habe ich auch diese Website in nur wenigen Tagen erstellt. Das GitHub-Repository findet man hier --&gt; 
+            Ich liebe React, weil man den meisten nur einmal modular schreiben, und dann immer wiederverwenden kann. Damit habe ich auch diese Website in nur wenigen Tagen erstellt. 
+            <div className="flex justify-center">
+                Das GitHub-Repository findet man hier --&gt; &nbsp;
                 <img alt="GitHub Repository" className="cursor-pointer " onClick={() => window.open("https://github.com/MarkusLoeffler01/Portfolio", "_blank")?.focus()} src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
             </div>
         </Typography>
