@@ -1,10 +1,73 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  /* padding: 2rem; */
   text-align: center;
   width: 100%;
 }
+
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 400px;
+  padding: 100px 20vw;
+}
+
+.blue {
+  background: #3c31dd;
+}
+
+.red {
+  background: #dd3f31;
+}
+
+.pink {
+  background: #ff0066;
+}
+
+.dark {
+  background: #0f0f10;
+}
+
+.curve {
+  position: relative;
+  height: 225px;
+  width: 100%;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.curve::before,
+.curve::after {
+  content: "";
+  display: block;
+  position: absolute;
+  border-radius: 100% 50%;
+  width: 55%;
+  height: 100%;
+  background-color: var(--before-bg); /* oder var(--after-bg) für das ::after-Element */
+  border: none; /* Keine Ränder */
+  box-shadow: none; /* Keine Schatten */
+  outline: none; /* Keine Konturen */
+}
+
+/* Für das ::before-Element spezifische Positionierung */
+.curve::before {
+  transform: translate(85%, 60%);
+}
+
+/* Für das ::after-Element spezifische Positionierung */
+.curve::after {
+  transform: translate(-85%, -60%);
+  background-color: var(--after-bg); /* Farbe für ::after */
+}
+
 
 .logo {
   height: 6em;

@@ -20,8 +20,8 @@ export const BannerContainer = styled(Paper)(({ theme }) => ({
   }));
   
 export const Logo = styled('img')(({ theme, width, height }) => ({
-    width: width || '100px',
-    height: height || '100px',
+    width: width || '200px',
+    height: height || '200px',
     [theme.breakpoints.down('sm')]: {
       width: '70px',
       height: '70px',
@@ -31,7 +31,7 @@ export const Logo = styled('img')(({ theme, width, height }) => ({
 
 const NewBanner = ({type, logo, title, subtitle, dark = false, spin = false, sx, logoSx}: {type: skillType, logo: string | JSX.Element, title: string, subtitle: string, dark?: boolean, spin?: boolean, sx?: SxProps, logoSx?: SxProps}) => {
   return (
-    <BannerContainer sx={{...sx, color: dark ? "white" : "black"}}>
+    <BannerContainer sx={{...sx, color: dark ? "white" : "black", height: "110%"}}>
       {typeof logo === "string" ? <Logo src={logo} sx={logoSx} className={[title.toString().toLocaleLowerCase(), "logo", spin && "spin"].join(" ")} alt="Logo" /> : logo}
       {title && <Typography variant="h4" component="h1" align="center" gutterBottom>
         {title}

@@ -25,7 +25,7 @@ function SkillSlider({children}: {children: React.ReactNode}) {
         }, 600);
     }
 
-    return <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
+    return <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%"}}>
             <Carousel autoPlay onChange={handleChange} index={currentIndex} sx={{width: "100%", border: "1px solid white", borderRadius: "15px"}} swipe cycleNavigation fullHeightHover navButtonsAlwaysVisible stopAutoPlayOnHover duration={500} interval={2_000} height={"400px"} animation="slide">
                 {children}
             </Carousel>

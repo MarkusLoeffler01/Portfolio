@@ -1,4 +1,4 @@
-import { useCallback, useState, useMemo } from 'react'
+import { useState } from 'react'
 import Banner from "@components/banners/containers/container";
 import * as logos from "@assets/index";
 import csLogo from "@assets/cs.svg";
@@ -6,7 +6,7 @@ import DiagonalCutSVG from "@components/diagonalSVG";
 import SkillSliderComponent from "@components/SkillsSlider";
 import { SelectChangeEvent } from "@mui/material/Select";
 
-import { Select, MenuItem, Checkbox, ListItemText, InputLabel, FormControl, createTheme } from "@mui/material";
+import { Select, MenuItem, Checkbox, ListItemText, InputLabel, FormControl } from "@mui/material";
 import { skillType } from '@/interfaces/skillType';
 
 
@@ -56,14 +56,14 @@ const NewFilter = ({ selectedItems, setItems }: { selectedItems: string[], setIt
 
 };
 
-const SkillSlider = () => {
+const SkillSlider = ({color: _, viewHeight: __}: {color?: string, viewHeight?: number}) => {
 
   const [skillShortNameFilter, setSkillShortNameFilter] = useState<string[]>([]);
 
   const banners = [
 
     // Languages
-    <Banner type="language" logo={<DiagonalCutSVG css={{ paddingBottom: "4%", marginTop: "5%" }} />} title='JavaScript && TypeScript' subtitle='Since 2018 && 2020' sx={{ backgroundColor: "#252525" }} dark key="BannerJavaScript" />,
+    <Banner type="language" logo={<DiagonalCutSVG css={{ paddingBottom: "4%", marginTop: "5%", width: "200px", height: "200px" }} />} title='JavaScript && TypeScript' subtitle='Since 2018 && 2020' sx={{ backgroundColor: "#252525" }} dark key="BannerJavaScript" />,
     <Banner type="language" logo={csLogo} title='C#' subtitle='Since 2019' sx={{ backgroundColor: "rgb(121, 0, 109)" }} key="BannerCS" />,
 
     // Frameworks
@@ -98,8 +98,7 @@ const SkillSlider = () => {
   ]
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      {/* <Filter /> */}
+    <>
       <NewFilter selectedItems={skillShortNameFilter} setItems={setSkillShortNameFilter} />
       <SkillSliderComponent>
         {banners.filter((banner) => {
@@ -111,7 +110,7 @@ const SkillSlider = () => {
           return skillShortNameFilter.includes(shortName);
         })}
       </SkillSliderComponent>
-    </div>
+    </>
   );
 };
 
