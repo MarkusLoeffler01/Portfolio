@@ -5,28 +5,8 @@ import Wave from "./shapes/wavesOpacity";
 import { marginBottomFromViewHeight } from "@/ts/calc";
 
 
-function FullPage({children}: {children: React.ReactNode}) {
-
-    return React.Children.map(children, (child, index) => {
-        return <div key={index} style={{height: "100vh", width: "100vw", display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }} className="section">
-                {child}
-            </div>
-            <div className="curve"></div>
-        </div>
-    });
-}
-
 const FullPageWrapper = ({ children }: { children: React.ReactNode }) => {
-    return (
-        <div style={{ 
-            // display: 'flex', 
-            // flexDirection: 'column', 
-            // justifyContent: 'center', 
-            // alignItems: 'center',
-        }}>
-        {React.Children.map(children, (child, index) => {
-            
+    return React.Children.map(children, (child, index) => {
             if(!React.isValidElement(child)) return child;
             return <div 
             key={index} 
@@ -54,10 +34,8 @@ const FullPageWrapper = ({ children }: { children: React.ReactNode }) => {
             </div>
             <Wave fill={child.props.color}/>
           </div>
-        })}
-      </div>
-    );
-  };
+        })
+};
   
 
 export default FullPageWrapper;
