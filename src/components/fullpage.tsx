@@ -48,7 +48,7 @@ const FullPageWrapper = ({ children }: { children: React.ReactNode }) => {
               justifyContent: 'center', 
               alignItems: 'center',
             }}>
-              <div className={`w-[70vw] ${index !== 0 && "mt-[15vh]" }`} >
+              <div className={`${child.props.disableViewWidth || "w-[70vw]"} ${index !== 0 && "mt-[15vh]" }`} >
                 {{...child, props: {...child.props}}}
               </div>
             </div>

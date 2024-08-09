@@ -43,4 +43,16 @@ function marginBottomFromViewHeight(height: number): number {
   return 0; // Fallback, sollte nicht erreicht werden
 }
 
-export { marginBottomFromViewHeight };
+
+function age(birthdate: Date): number {
+  const today = new Date();
+  const birthDate = new Date(birthdate);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+  }
+  return age;
+}
+
+export { marginBottomFromViewHeight, age };
