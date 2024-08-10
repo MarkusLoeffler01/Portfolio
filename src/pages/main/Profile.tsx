@@ -1,5 +1,6 @@
 import Markus from "@assets/image.png";
-import { Box, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import "@css/font.css";
 
 import { age } from "@/ts/calc";

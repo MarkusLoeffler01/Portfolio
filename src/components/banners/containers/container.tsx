@@ -1,7 +1,10 @@
-import { Paper, SxProps } from '@mui/material';
+import Paper from '@mui/material/Paper';
+// We can import SxProps safely because types are stripped in the build process
+// eslint-disable-next-line no-restricted-imports
+import { SxProps } from '@mui/material';
 import { styled } from '@mui/system';
-import { Typography } from '@mui/material';
-import { skillType } from '@/interfaces/skillType';
+import Typography from '@mui/material/Typography';
+
 
 function getMode(mode: "light" | "dark") {
     return mode === "light" ? "#0a0d7a" : "#0a0d7a";
@@ -29,7 +32,7 @@ export const Logo = styled('img')(({ theme, width, height }) => ({
 }));
 
 
-const NewBanner = ({type, logo, title, subtitle, dark = false, spin = false, sx, logoSx}: {type: skillType, logo: string | JSX.Element, title: string, subtitle: string, dark?: boolean, spin?: boolean, sx?: SxProps, logoSx?: SxProps}) => {
+const NewBanner = ({logo, title, subtitle, dark = false, spin = false, sx, logoSx}: {logo: string | JSX.Element, title: string, subtitle: string, dark?: boolean, spin?: boolean, sx?: SxProps, logoSx?: SxProps}) => {
   return (
     <BannerContainer sx={{...sx, color: dark ? "white" : "black", height: "110%"}}>
       {typeof logo === "string" ? <Logo src={logo} sx={logoSx} className={[title.toString().toLocaleLowerCase(), "logo", spin && "spin"].join(" ")} alt="Logo" /> : logo}

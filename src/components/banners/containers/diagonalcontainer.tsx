@@ -1,6 +1,7 @@
 import TypeScriptLogo from '@assets/typescript.svg?react';
 import JavaScriptLogo from '@assets/javascript.svg?react';
-import { Typography, Container } from '@mui/material';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 import { styled } from '@mui/system';
 
 function getMode(mode: "light" | "dark") {

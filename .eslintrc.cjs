@@ -17,6 +17,17 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   rules: {
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_+$' }],
+    'no-restricted-imports': [
+      "error", {
+        "paths": [
+          {
+            name: "@mui/material",
+            message: "Please import from @mui/material/{{name}} instead."
+          }
+        ]
+      }
+    ],
     'react/react-in-jsx-scope': 'off',
     'react-refresh/only-export-components': [
       'warn',
