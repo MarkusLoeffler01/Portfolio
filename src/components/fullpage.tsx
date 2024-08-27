@@ -11,7 +11,7 @@ const FullPageWrapper = ({ children }: { children: React.ReactNode }) => {
             return <div 
             key={index} 
             style={{ 
-              height: '100vh',
+              height: child.props.height ?? '100vh',
               minWidth: "100vh",
               width: '100vw',
               // marginBottom: "-5%", //! Change marginBottom with height of child to increase size of page
@@ -28,11 +28,11 @@ const FullPageWrapper = ({ children }: { children: React.ReactNode }) => {
               justifyContent: 'center', 
               alignItems: 'center',
             }}>
-              <div className={`${child.props.disableViewWidth || "w-[70vw]"} ${index !== 0 && "mt-[15vh]" }`} >
+              <div className={`w-[70vw] ${index !== 0 && "mt-[15vh]" } ${child.props.className && `${child.props.className}`}`} >
                 {{...child, props: {...child.props}}}
               </div>
             </div>
-            <Wave fill={child.props.color}/>
+            {!child.props.noWave && <Wave fill={child.props.color}/>}
           </div>
         })
 };

@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import "@css/font.css";
 
 import { age } from "@/ts/calc";
+import ProfilePicture from "@/components/shapes/profilePicture";
 
 const Info = ({prop, value}: {prop: string, value: string}) => (
     <Box className="flex flex-row font-bold mt-1 ml-8">
@@ -129,9 +130,7 @@ const CV = () => {
                     {/* Section 2, right */}
                     <Box className="w-full border-2 h-full rounded-r-lg">
                         <div className="flex flex-1 justify-end">
-                            <div className="w-[160px] h-[160px] rounded-full overflow-hidden border-4 border-gray-300 mr-5 mt-5">
-                                <img className="object-cover w-full h-full" src={Markus} />
-                            </div>
+                            <ProfilePicture src={Markus} px={150} />
                         </div>
                         <Section title="&ensp;Ausbildung &ensp;">
                             {job_education.map(({from, to, company, description}, index) => <EducationInfo key={index} from={from} to={to} school={company} degree={[description]} />)}
@@ -174,7 +173,7 @@ const Biography = () => (
             Links findest du meinen Lebenslauf und unten weitere Informationen über mich. Wie z.B. meine Skill-Matrix, meine Projekte und meine Kontaktdaten.
             <br />
             <br />
-            Ich liebe React, weil man den meisten nur einmal modular schreiben, und dann immer wiederverwenden kann. Damit habe ich auch diese Website in nur wenigen Tagen erstellt. 
+            Ich liebe React, weil man den meisten Komponenten nur einmal modular schreiben, und dann immer wiederverwenden kann. Damit habe ich auch diese Website in nur wenigen Tagen erstellt. 
             <div className="flex justify-center">
                 Das GitHub-Repository findet man hier --&gt; &nbsp;
                 <img alt="GitHub Repository" className="cursor-pointer " onClick={() => window.open("https://github.com/MarkusLoeffler01/Portfolio", "_blank")?.focus()} src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
@@ -193,7 +192,7 @@ const Introduction = () => (
 );
 
 
-const Profile = ({color: _, disableViewWidth: __}: {color: string, disableViewWidth?: boolean}) => {
+const Profile = ({color: _, className: __}: {color: string, className?: string}) => {
     return <div className="flex flex-row items-stretch flex-1 w-full h-full">
         <Introduction />
         <CV />

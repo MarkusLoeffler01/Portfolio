@@ -28,6 +28,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "../portfolio_api/src/interfaces/pagination.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
