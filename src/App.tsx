@@ -5,7 +5,6 @@ import Datenschutz from '@pages/datenschutzerklärung';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-
 const router = createBrowserRouter([
   {
     path: "/",

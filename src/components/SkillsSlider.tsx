@@ -12,10 +12,8 @@ function SkillSlider({children}: {children: React.ReactNode}) {
         if(childrenCount <= currentIndex) setCurrentIndex(0);
     }, [children, currentIndex]);
 
-    function handleChange(now?: number, previous?: number) {
+    function handleChange(now?: number) {
         //Check if the index of now is in the array of children
-        console.log(now, previous);
-
         if(now === undefined) return;
 
         setTimeout(() => {
@@ -26,7 +24,7 @@ function SkillSlider({children}: {children: React.ReactNode}) {
     }
 
     return <div style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%"}}>
-            <Carousel autoPlay onChange={handleChange} index={currentIndex} sx={{width: "100%", border: "1px solid white", borderRadius: "15px"}} swipe cycleNavigation fullHeightHover navButtonsAlwaysVisible stopAutoPlayOnHover duration={500} interval={2_000} height={"400px"} animation="slide">
+            <Carousel autoPlay onChange={handleChange} index={currentIndex} sx={{width: "100%", border: "1px solid white", borderRadius: "15px"}} swipe cycleNavigation fullHeightHover navButtonsAlwaysVisible stopAutoPlayOnHover duration={500} interval={2_000} height={"400px"} animation="slide" data-testid="carousel" className="carousel">
                 {children}
             </Carousel>
         </div>

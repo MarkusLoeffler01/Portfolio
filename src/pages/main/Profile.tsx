@@ -8,7 +8,7 @@ import ProfilePicture from "@/components/shapes/profilePicture";
 
 const Info = ({prop, value}: {prop: string, value: string}) => (
     <Box className="flex flex-row font-bold mt-1 ml-8">
-        <Typography className="flex flex-row w-full text-start">
+        <Typography component="span" className="flex flex-row w-full text-start">
             <Box className=" w-1/3 font-bold font-serif">
                 {prop}:
             </Box>
@@ -22,7 +22,7 @@ const Info = ({prop, value}: {prop: string, value: string}) => (
 
 const EducationInfo = ({from, to, school, degree}: {from: string, to?: string, school?: string, degree?: string[]}) => (
     <Box className="flex flex-row font-bold mt-1 ml-8 mb-5">
-        <Typography className="flex flex-col w-full text-start">
+        <Typography component="span" className="flex flex-col w-full text-start">
             <Box className="font-bold font-serif mt-1 text-lg">
                 {to ? `${from} - ${to}` : from}
             </Box>
