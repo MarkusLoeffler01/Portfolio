@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import SkillSlider, { items, banners } from '@/pages/main/SkillSlider';
-
+import SkillSlider from '@/pages/main/SkillSlider';
+import { items, banners } from '@/data/skillSliderItems';
 describe("SkillSlider", () => {
     it("Should render the SkillSlider site", async () => {
         const { container } = render(<SkillSlider />);
