@@ -15,7 +15,6 @@ export default defineConfig({
         manualChunks: {
           'react': ['react', 'react-dom'],
           'react-router-dom': ['react-router-dom'],
-          'mui-props': ['@mui/material/styles'],
           "mui-icons": ['@mui/icons-material'],
           "mui-system": ['@mui/system'],
           "mui-components": ["@mui/material/Typography", "@mui/material/Box", "@mui/material/Paper", "@mui/material/Avatar", "@mui/material/Container", "@mui/material/TextField", "@mui/material/Pagination", "@mui/material/InputLabel", "@mui/material/FormControl", "@mui/material/Select"],
