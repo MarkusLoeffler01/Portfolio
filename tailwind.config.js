@@ -1,12 +1,19 @@
 /** @type {import('tailwindcss').Config} */
+import fluid, { extract} from 'fluid-tailwind'
+
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{ts,tsx}",
-  ],
+  content: {
+    files: [
+      "./index.html",
+      "./src/**/*.{ts,tsx}",
+    ],
+    extract
+  },
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    fluid
+  ],
 }
 

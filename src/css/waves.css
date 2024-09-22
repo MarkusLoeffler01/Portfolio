@@ -1,15 +1,16 @@
-.custom-shape-divider-top-1723024818 {
+.wave {
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
+    height: auto;
     overflow: hidden;
     line-height: 0;
+    pointer-events: none;
+    margin-top: -2px;
 }
 
-.custom-shape-divider-top-1723024818 svg {
-    position: relative;
+.wave svg {
     display: block;
-    width: calc(100% + 1.3px);
-    height: 171px;
+    width: 100%;
+    height: auto;
+    pointer-events: none;
 }

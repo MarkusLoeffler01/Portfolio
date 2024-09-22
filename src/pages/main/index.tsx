@@ -8,10 +8,10 @@ import Flow from "./Flow";
 const MainPage = () => {
     return (
         <FullPage>
-            <Profile className="w-[100vw]" color="#252525" />
+            <Profile className="w-[95%]" color="#252525" />
             <SkillSlider color="#3c31dd" />
             <GuestBook className="flex flex-row justify-center top-[-5vh] relative" color="#252525" viewHeight={150} />
-            <Flow className="flex flex-row justify-center top-[-5vh] relative w-full" color="#030303" viewHeight={150} />
+            <Flow className="flex flex-col justify-center top-[-5vh] relative w-full text-center items-center mb-[0%]" color="#030303" viewHeight={363} />
             <Footer color="#FF2942" height="auto" viewHeight={50} noWave  />
         </FullPage>
     )

@@ -9,7 +9,7 @@ import ProfilePicture from "@/components/shapes/profilePicture";
 const Info = ({prop, value}: {prop: string, value: string}) => (
     <Box className="flex flex-row font-bold mt-1 ml-8">
         <Typography component="span" className="flex flex-row w-full text-start">
-            <Box className=" w-1/3 font-bold font-serif">
+            <Box className="w-1/3 font-bold font-serif">
                 {prop}:
             </Box>
             <Box className="w-2/3 font-bold font-serif">
@@ -113,7 +113,7 @@ const CV = () => {
 
 
 
-    return <Box className="container flex flex-row w-[50vw] p-5 rounded-full">
+    return <Box className="container flex flex-row rounded-full w-full">
                 <Box className="flex flex-col w-full flex-grow flex-shrink basis-1/2 min-w-0 rounded-full">
                     {/* Section 1, left */}
                     <Box className="w-full border-2 h-full rounded-l-lg">
@@ -176,7 +176,7 @@ const Biography = () => (
             Ich liebe React, weil man den meisten Komponenten nur einmal modular schreiben, und dann immer wiederverwenden kann. Damit habe ich auch diese Website in nur wenigen Tagen erstellt. 
             <div className="flex justify-center">
                 Das GitHub-Repository findet man hier --&gt; &nbsp;
-                <img alt="GitHub Repository" className="cursor-pointer " onClick={() => window.open("https://github.com/MarkusLoeffler01/Portfolio", "_blank")?.focus()} src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
+                <img alt="GitHub Repository" className="cursor-pointer m-auto" onClick={() => window.open("https://github.com/MarkusLoeffler01/Portfolio", "_blank")?.focus()} src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
             </div>
         </Typography>
     </Box>
@@ -184,7 +184,7 @@ const Biography = () => (
 
 
 const Introduction = () => (
-    <Box className="container w-[50vw] flex flex-nowrap flex-col flex-start p-5 [&>*]:mb-10">
+    <Box className="container w-[50vw] flex flex-nowrap flex-col flex-start [&>*]:mb-10 m-[5%]">
         <Name />
         <Quote />
         <Biography />
