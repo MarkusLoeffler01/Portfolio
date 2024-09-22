@@ -58,6 +58,7 @@ const GuestBook = ({color: _, className: __, viewHeight: ___, className: ____}: 
     <Box sx={{
               // display: "grid",
               flexDirection: "column",
+              display: "flex",
 
               justifyContent: "flex-end",
               height: "100%",

@@ -170,11 +170,12 @@ const Biography = () => (
             Ich heiße Markus, bin {age(new Date("2001-07-31"))} Jahre alt und bin ein JavaScript-Freund seit {age(new Date("2018-05-31"))} Jahren.
             In meiner Freizeit spiele ich gerne Handball, lerne Japanisch (まさに、日本人) programmiere eigene Projekte und lerne viel über neue Technologien.
             Täglich lebe ich am Limit, indem ich ausschließlich Linux nutze und mich gerne selbst ins kalte Wasser schmeiße. Ich finde, das hat den besten Lerneffekt.
-            Links findest du meinen Lebenslauf und unten weitere Informationen über mich. Wie z.B. meine Skill-Matrix, meine Projekte und meine Kontaktdaten.
+            Ich nutze privat ausschließlich Linux für meine Projekte und für meine Freizeit und bin ein großer Fan von Open-Source-Software.
+            Rechts findest du meinen Lebenslauf und unten weitere Informationen über mich. Wie z.B. meine Skill-Matrix, meine Projekte und meine Kontaktdaten.
             <br />
             <br />
-            Ich liebe React, weil man den meisten Komponenten nur einmal modular schreiben, und dann immer wiederverwenden kann. Damit habe ich auch diese Website in nur wenigen Tagen erstellt. 
-            <div className="flex justify-center">
+            Ich liebe React, weil man den meisten Komponenten nur einmal modular schreiben, und dann immer wiederverwenden kann. Damit habe ich auch diese Website in nur mit wenig Aufwand erstellt.
+            <div className="flex flex-row">
                 Das GitHub-Repository findet man hier --&gt; &nbsp;
                 <img alt="GitHub Repository" className="cursor-pointer m-auto" onClick={() => window.open("https://github.com/MarkusLoeffler01/Portfolio", "_blank")?.focus()} src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
             </div>
@@ -184,10 +185,12 @@ const Biography = () => (
 
 
 const Introduction = () => (
-    <Box className="container w-[50vw] flex flex-nowrap flex-col flex-start [&>*]:mb-10 m-[5%]">
-        <Name />
-        <Quote />
-        <Biography />
+    <Box className="flex mr-5">
+        <Box className="container flex flex-nowrap flex-col flex-start [&>*]:mb-10 m-[5%] mr-2">
+            <Name />
+            <Quote />
+            <Biography />
+        </Box>
     </Box>
 );
 

@@ -117,3 +117,25 @@ button.MuiButtonBase-root > svg {
   border-color: "#FFFFFF" !important;
   border-top-color: "#FFFFFF" !important;
 }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+/*
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+    width: 90%;
+  }
+  .flex {
+    flex-direction: column; /* Stapelt Elemente übereinander auf kleinen Bildschirmen */
+    /*
+  }
+  
+  .box {
+    width: 100%; /* Boxen auf voller Breite anzeigen */
+    /*
+  }
+}
+  */

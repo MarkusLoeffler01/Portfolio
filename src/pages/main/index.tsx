@@ -4,8 +4,24 @@ import Profile from "./Profile";
 import FullPage from "@components/fullpage";
 import Footer from "./footer";
 import Flow from "./Flow";
+import { useState, useEffect } from "react";
 
 const MainPage = () => {
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    
+    window.addEventListener("resize", () => {
+        setWindowWidth(window.innerWidth);
+    });
+
+    useEffect(() => {
+        setWindowWidth(window.innerWidth);
+    }, []);
+
+    if(windowWidth < 1024) {
+        return (<div>Sorry, this website is not optimized for mobile devices. Please use a desktop device to view this website.</div>);
+    }
+
+
     return (
         <FullPage>
             <Profile className="w-[95%]" color="#252525" />
