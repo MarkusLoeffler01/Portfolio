@@ -104,7 +104,7 @@ const GuestBook = ({color: _, className: __, viewHeight: ___, className: ____}: 
           credentials: "include"
         };
 
-        await fetch(getBackendUrl()+"comment", options);
+        await fetch(getBackendUrl()+"/comment", options);
         setSubmitting(false);
       }}
       >
