@@ -6,18 +6,97 @@ import "@css/font.css";
 import { age } from "@/ts/calc";
 import ProfilePicture from "@/components/shapes/profilePicture";
 
-const Info = ({ prop, value }: { prop: string; value: string }) => (
-  <Box className="flex flex-col sm:flex-row font-bold mt-1 ml-8">
-    <Typography component="span" className="flex flex-col sm:flex-row w-full text-start">
-      <Box className="w-full sm:w-1/3 font-bold font-serif">
-        {prop}:
+
+interface InfoProps {
+    prop: string;
+    value: string;
+}
+
+interface EducationInfoProps {
+    from: string;
+    to?: string;
+    school?: string;
+    degree?: string[];
+}
+
+type CombinedProps = InfoProps | EducationInfoProps;
+
+// const Info = ({ prop, value }: { prop: string; value: string }) => (
+//     <Box className="flex flex-col sm:flex-row font-bold mt-1 ml-8 text-lg">
+//       <Typography component="span" className="flex flex-col sm:flex-row w-full text-start">
+//         <Box className="sm:w-fit w-1/3 font-bold font-serif mr-10">
+//           {prop}:
+//         </Box>
+//         <Box sx={{}}>
+
+//         </Box>
+//         <Box className="sm:w-fit w-2/3 font-bold font-serif">
+//           {value}
+//         </Box>
+//       </Typography>
+//     </Box>
+//   );
+
+const InfoItem = <T extends CombinedProps>({ data }: { data: T }) => {
+    return (
+      <Box className="flex flex-col mt-1 ml-8 mb-5">
+        {'prop' in data && 'value' in data ? (
+          // Rendering für InfoProps
+          <Box className="flex flex-col sm:flex-row mt-1">
+            <Typography component="span" className="flex flex-row w-full [&>*]:text-start [&>*]:font-serif [&>*]:font-bold">
+                <Box className="sm:w-1/3 text-end mr-2 md:mr-4 lg:mr-8 xl:mr-10 text-xl">
+                  {data.prop}:
+                </Box>
+                <Box className="sm:w-2/3 ">
+                  {data.value}
+                </Box>
+            </Typography>
+          </Box>
+        ) : (
+          // Rendering für EducationProps
+          <Box className="text-start lg:text-xl">
+            <Box className="font-bold font-serif mt-1 text-lg">
+              {data.to ? `${data.from} - ${data.to}` : data.from}
+            </Box>
+            {data.school && (
+              <Box className="font-bold font-serif mt-1">
+                {data.school}
+              </Box>
+            )}
+            {data.degree && data.degree.length > 0 && (
+              <Box className="font-normal font-serif mt-1">
+                {data.degree.map((d, index) => (
+                  <Box key={index} className="mt-1 ml-4 list-disc">
+                    {d}
+                  </Box>
+                ))}
+              </Box>
+            )}
+          </Box>
+        )}
       </Box>
-      <Box className="w-full sm:w-2/3 font-bold font-serif">
-        {value}
+    );
+  };
+  
+
+
+  const GeneralInfo = ({ data }: { data: { prop: string; value: string }[] }) => (
+    <Box className="flex flex-row mt-1 ml-8 mb-5">
+      <Box className="flex flex-col w-fit pr-4 text-right font-bold font-serif">
+        {data.map(({ prop }, index) => (
+          <Box className="w-fit self-end" key={index}>
+            {prop}:
+          </Box>
+        ))}
       </Box>
-    </Typography>
-  </Box>
-);
+      <Box className="flex flex-col text-left">
+        {data.map(({ value }, index) => (
+          <Typography key={index}>{value}</Typography>
+        ))}
+      </Box>
+    </Box>
+  );
+  
 
 const EducationInfo = ({
   from,
@@ -150,31 +229,33 @@ const CV = () => {
   ];
 
   return (
-    <Box className="flex flex-col md:flex-row w-full">
+    <Box className="flex flex-col md:flex-row w-full flex-[2]">
       <Box className="flex flex-col w-full md:w-1/2">
         {/* Section 1, left */}
-        <Box className="w-full border-2 h-full rounded-l-lg">
+        <Box className="md:w-fit border-2 h-full rounded-l-lg md:p-2 md:pt-32">
           <Section title="&ensp;Persönliche Daten &ensp;">
-            {val.map(({ prop, value }, index) => (
-              <Info key={index} prop={prop} value={value} />
-            ))}
+            {/* {val.map(({ prop, value }, index) => (
+              <InfoItem key={index} data={{prop, value}} />
+            ))} */}
+            <GeneralInfo data={val} />
           </Section>
           <Section title="&ensp;Ausbildung &ensp;">
             {education.map(({ from, to, school, degree }, index) => (
-              <EducationInfo
-                key={index}
-                from={from}
-                to={to}
-                school={school}
-                degree={degree}
-              />
+            //   <EducationInfo
+            //     key={index}
+            //     from={from}
+            //     to={to}
+            //     school={school}
+            //     degree={degree}
+            //   />
+            <InfoItem key={index} data={{from, to, school, degree}} />
             ))}
           </Section>
         </Box>
       </Box>
       <Box className="flex flex-col w-full md:w-1/2">
         {/* Section 2, right */}
-        <Box className="w-full border-2 h-full rounded-r-lg">
+        <Box className="w-full border-2 h-full rounded-r-lg md:p-2">
           <div className="flex justify-center md:justify-end p-4">
             <ProfilePicture src={Markus} className="w-32 h-32 md:w-48 md:h-48" />
           </div>
@@ -290,8 +371,11 @@ const Biography = () => (
   );
 
 const Introduction = () => (
-  <Box className="flex flex-col md:flex-row md:mr-5">
-    <Box className="flex flex-col flex-start [&>*]:mb-10 m-[5%] md:mr-2">
+    /**
+     * ! Flex 1 ist wichtig, um dem Lebenslauf genug Platz zu geben
+     */
+  <Box className="flex flex-col md:flex-row md:mr-5 flex-start" sx={{flex: "1"}}>
+    <Box className="[&>*]:mb-10 m-[5%] md:mr-2">
       <Name />
       <Quote />
       <Biography />
