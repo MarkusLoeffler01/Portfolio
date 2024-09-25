@@ -1,6 +1,5 @@
 import Paper from '@mui/material/Paper';
 // We can import SxProps safely because types are stripped in the build process
-// eslint-disable-next-line no-restricted-imports
 import type { SxProps } from "@mui/material/styles";
 import { styled } from '@mui/system';
 import Typography from '@mui/material/Typography';
