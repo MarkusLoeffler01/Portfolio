@@ -27,7 +27,7 @@ export const items: Item[] = [
     <Banner logo={logos.reactLogo} subtitle='Since 2022' title='React' spin dark key="BannerReact" type="framework" />,
     <Banner logo={logos.jestLogo} subtitle='Since 2023' title='Jest' sx={{ backgroundColor: "rgb(206, 116, 32)" }} key="BannerJest" type="framework" />,
     <Banner logo={logos.vitestLogo} subtitle='Since 2023' title='Vitest' sx={{ backgroundColor: "rgb(35, 49, 126)" }} key="BannerVitest" type="framework" />,
-    <Banner logo={logos.reactLogo} subtitle='Since 2023' title='React Native' sx={{ backgroundColor: "rgb(38, 182, 52)"}} spin dark key="BannerReactNative" type="framework" />,
+    <Banner logo={logos.reactLogo} subtitle='Since 2023' title='React Native' sx={{ backgroundColor: "rgb(38, 182, 52)"}} spin key="BannerReactNative" type="framework" />,
     <Banner logo={logos.vueLogo} subtitle='Since 2023' title='Vue' key="BannerVue" dark type="framework" />,
 
   
