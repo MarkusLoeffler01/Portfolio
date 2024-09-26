@@ -319,21 +319,14 @@ const Biography = () => (
         }}
       >
         Herzlich Willkommen auf meinem Portfolio. Ich heiße Markus, bin{" "}
-        {age(new Date("2001-07-31"))} Jahre alt und bin ein JavaScript-Freund seit{" "}
-        {age(new Date("2018-05-31"))} Jahren. In meiner Freizeit spiele ich gerne
-        Handball, lerne Japanisch (まさに、日本人), programmiere eigene Projekte und
-        lerne viel über neue Technologien. Täglich lebe ich am Limit, indem ich
-        ausschließlich Linux nutze und mich gerne selbst ins kalte Wasser
-        schmeiße. Ich finde, das hat den besten Lerneffekt. Ich nutze privat
-        ausschließlich Linux für meine Projekte und für meine Freizeit und bin ein
-        großer Fan von Open-Source-Software. Rechts findest du meinen Lebenslauf
-        und unten weitere Informationen über mich, wie z.B. meine Skill-Matrix,
-        meine Projekte und meine Kontaktdaten.
+        {age(new Date("2001-07-31"))} Jahre alt und beschäftige mich seit {" "}
+        {age(new Date("2018-05-31"))} Jahren mit JavaScript. In meiner Freizeit spiele ich
+        Handball, lerne Japanisch (まさに、日本人), entwickle eigene Projekte und informiere mich über neue Technologien. 
+        Ich nutze privat ausschließlich Linux für meine Projekte und bin ein großer Verfechter von Open-Source-Software.
+        Die Arbeit mit React begeistert mich besonders, da ich Komponenten modular entwickeln und wiederverwenden kann. So konnte ich auch diese Website praktisch umsetzen.
         <br />
         <br />
-        Ich liebe React, weil man den meisten Komponenten nur einmal modular
-        schreiben und dann immer wiederverwenden kann. Damit habe ich auch diese
-        Website mit nur wenig Aufwand erstellt.
+        Anbei finden Sie meinen Lebenslauf sowie weitere Informationen über meine Fähigkeiten, meiner Arbeitsweise und Kontaktdaten. Ich freue mich darauf, mich persönlich bei Ihnen vorzustellen und mehr über die Möglichkeiten einer Zusammenarbeit zu erfahren.
       </Typography>
       {/* Das DIV wurde außerhalb des Typography-Elements platziert */}
       <Box
@@ -344,7 +337,7 @@ const Biography = () => (
         mt={2}
       >
         <Typography fontFamily="Roboto">
-          Das GitHub-Repository findet man hier --&gt;&nbsp;
+          Das GitHub-Repository finden Sie hier --&gt;&nbsp;
         </Typography>
         <img
           alt="GitHub Repository"
