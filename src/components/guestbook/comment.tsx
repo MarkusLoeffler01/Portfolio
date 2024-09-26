@@ -2,8 +2,8 @@ import ProfilePicture from "../shapes/profilePicture";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-// eslint-disable-next-line no-restricted-imports
-import { useMediaQuery, useTheme } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import useTheme from "@mui/material/styles/useTheme";
 
 const options: Intl.DateTimeFormatOptions = {
   year: "numeric",
@@ -28,61 +28,53 @@ function GuestBookComment({
   timestamp,
   timestampLocale = new Intl.DateTimeFormat(navigator.language, options),
 }: GuestBookCommentProps) {
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+    const mobileOptions: Intl.DateTimeFormatOptions = {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+    };
+
+    const mobileLocale = new Intl.DateTimeFormat(navigator.language, mobileOptions);
 
   return (
     <Paper
       elevation={1}
-      sx={{
-        padding: 2,
-        marginBottom: 2,
-        display: "flex",
-        justifyContent: "center",
-        maxHeight: "100%",
-        overflowY: "auto",
-        width: "100%",
-      }}
+      className="p-4 mb-4 flex justify-center max-h-full overflow-y-auto w-full"
     >
-      <Box
-        display="flex"
-        flexDirection={isSmallScreen ? "column" : "row"}
-        alignItems={isSmallScreen ? "center" : "flex-start"}
-        width="100%"
-      >
+      <Box className="flex flex-col md:flex-row items-center md:items-start w-full">
         <ProfilePicture
           src={profilePicture}
-          px={isSmallScreen ? 80 : 100}
-          className={isSmallScreen ? "mb-2" : "mr-2"}
+          className="w-20 h-20 md:w-24 md:h-24 mb-2 md:mb-0 md:mr-4 flex-shrink-0"
         />
-        <Box flex="1" ml={isSmallScreen ? 0 : 2} textAlign={isSmallScreen ? "center" : "left"}>
-          <Box
-            display="flex"
-            flexDirection={isSmallScreen ? "column" : "row"}
-            alignItems={isSmallScreen ? "center" : "flex-start"}
-            justifyContent={isSmallScreen ? "center" : "flex-start"}
-          >
-            <Typography variant="subtitle1" fontWeight="bold">
-              {author}
+        <Box className="flex-1 text-center md:text-left">
+          <Box className="flex flex-col md:flex-row items-center md:items-baseline justify-center md:justify-start flex-wrap">
+            <Typography variant="subtitle1" className="font-bold">
+              {author} &nbsp;
             </Typography>
             <Typography
               variant="body2"
               color="textSecondary"
-              sx={{ ml: isSmallScreen ? 0 : 1, mt: isSmallScreen ? 0.5 : 0 }}
+              className="md:ml-2 mt-1 md:mt-0"
             >
-              schrieb am
+              { isMobile || <>schrieb am &nbsp;</> }
             </Typography>
             <Typography
               variant="body2"
               color="textSecondary"
-              sx={{ ml: isSmallScreen ? 0 : 1, mt: isSmallScreen ? 0.5 : 0 }}
+              className="md:ml-1 mt-1 md:mt-0"
             >
-              {timestampLocale.format(timestamp)}
+              {isMobile ? mobileLocale.format(timestamp) : timestampLocale.format(timestamp)}
             </Typography>
           </Box>
           <Typography
             variant="body1"
-            sx={{ marginTop: 1, whiteSpace: "pre-line", wordBreak: "break-word" }}
+            className="mt-2 whitespace-pre-line break-words"
           >
             {content}
           </Typography>

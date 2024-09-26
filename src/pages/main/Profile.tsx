@@ -47,7 +47,7 @@ const InfoItem = <T extends CombinedProps>({ data }: { data: T }) => {
                 <Box className="sm:w-1/3 text-end mr-2 md:mr-4 lg:mr-8 xl:mr-10 text-xl">
                   {data.prop}:
                 </Box>
-                <Box className="sm:w-2/3 ">
+                <Box className="sm:w-2/3">
                   {data.value}
                 </Box>
             </Typography>
@@ -84,7 +84,7 @@ const InfoItem = <T extends CombinedProps>({ data }: { data: T }) => {
     <Box className="flex flex-row mt-1 ml-8 mb-5">
       <Box className="flex flex-col w-fit pr-4 text-right font-bold font-serif">
         {data.map(({ prop }, index) => (
-          <Box className="w-fit self-end" key={index}>
+          <Box className="w-fit self-end font-serif" key={index}>
             {prop}:
           </Box>
         ))}
@@ -123,7 +123,7 @@ const EducationInfo = ({
         <Box className="font-bold font-serif mt-1">
           Abschluss:
           {degree.map((d, index) => (
-            <Box key={index} className="font-bold font-serif">
+            <Box key={index} component="div" className="font-bold font-serif">
               {d}
             </Box>
           ))}
@@ -234,20 +234,10 @@ const CV = () => {
         {/* Section 1, left */}
         <Box className="md:w-fit border-2 h-full rounded-l-lg md:p-2 md:pt-32">
           <Section title="&ensp;Persönliche Daten &ensp;">
-            {/* {val.map(({ prop, value }, index) => (
-              <InfoItem key={index} data={{prop, value}} />
-            ))} */}
             <GeneralInfo data={val} />
           </Section>
           <Section title="&ensp;Ausbildung &ensp;">
             {education.map(({ from, to, school, degree }, index) => (
-            //   <EducationInfo
-            //     key={index}
-            //     from={from}
-            //     to={to}
-            //     school={school}
-            //     degree={degree}
-            //   />
             <InfoItem key={index} data={{from, to, school, degree}} />
             ))}
           </Section>
@@ -256,8 +246,8 @@ const CV = () => {
       <Box className="flex flex-col w-full md:w-1/2">
         {/* Section 2, right */}
         <Box className="w-full border-2 h-full rounded-r-lg md:p-2">
-          <div className="flex justify-center md:justify-end p-4">
-            <ProfilePicture src={Markus} className="w-32 h-32 md:w-48 md:h-48" />
+          <div className="flex justify-end md:justify-end content-end p-4">
+            <ProfilePicture src={Markus} className="w-32 h-32 md:w-48 md:h-48 mr-6 mt-6 absolute md:relative lg:relative xl:relavitve 2xl:relative" />
           </div>
           <Section title="&ensp;Ausbildung &ensp;">
             {job_education.map(

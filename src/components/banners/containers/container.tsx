@@ -25,8 +25,8 @@ export const Logo = styled('img')(({ theme, width, height }) => ({
     width: width || '200px',
     height: height || '200px',
     [theme.breakpoints.down('sm')]: {
-      width: '70px',
-      height: '70px',
+      width: '150px',
+      height: '150x',
     },
 }));
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "react-material-ui-carousel";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
+import useTheme from "@mui/material/styles/useTheme";
 
 function SkillSlider({ children }: { children: React.ReactNode }) {
   const [currentIndex, setCurrentIndex] = useState(0);

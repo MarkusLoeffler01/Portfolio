@@ -335,7 +335,7 @@ const GuestBook = ({
               id="commentCount"
               name="commentCount"
               onChange={handleCommentCountChange}
-              inputProps={{ type: "number", min: "1", max: "10" }}
+              inputProps={{ type: "number", max: "10" }}
               value={perPage}
               sx={{ width: "80px", marginLeft: "1rem" }}
             />
@@ -349,9 +349,13 @@ const GuestBook = ({
             gridTemplateColumns: {
               xs: "1fr",
               sm: "1fr 1fr",
-              md: "1fr 1fr 1fr",
+              // md: "1fr 1fr 1fr",
             },
-            gap: "1rem",
+            gap: {
+              xs: "1rem",
+              sm: "2rem",
+              md: "3rem",
+            }
           }}
         >
           {comments.map((comment, index) => (
