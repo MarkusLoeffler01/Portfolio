@@ -26,8 +26,10 @@ export const items: Item[] = [
     <Banner logo={logos.tailwindLogo} subtitle='Since 2022' title='TailwindCSS' sx={{ backgroundColor: "rgb(39, 98, 122)" }} key="BannerTailwind" type="framework" />,
     <Banner logo={logos.reactLogo} subtitle='Since 2022' title='React' spin dark key="BannerReact" type="framework" />,
     <Banner logo={logos.jestLogo} subtitle='Since 2023' title='Jest' sx={{ backgroundColor: "rgb(206, 116, 32)" }} key="BannerJest" type="framework" />,
-    <Banner logo={logos.vitestLogo} subtitle='Since 2023' title='Vitest' sx={{ backgroundColor: "rgb(38, 182, 52)" }} key="BannerVitest" type="framework" />,
-    <Banner logo={logos.reactLogo} subtitle='Since 2023' title='React Native' spin dark key="BannerReactNative" type="framework" />,
+    <Banner logo={logos.vitestLogo} subtitle='Since 2023' title='Vitest' sx={{ backgroundColor: "rgb(35, 49, 126)" }} key="BannerVitest" type="framework" />,
+    <Banner logo={logos.reactLogo} subtitle='Since 2023' title='React Native' sx={{ backgroundColor: "rgb(38, 182, 52)"}} spin dark key="BannerReactNative" type="framework" />,
+    <Banner logo={logos.vueLogo} subtitle='Since 2023' title='Vue' key="BannerVue" dark type="framework" />,
+
   
     // DBs
     <Banner logo={logos.mariaDBLogo} subtitle='Since 2018' title='MariaDB' sx={{ backgroundColor: "rgb(255, 255, 255)" }} key="BannerMariaDB" type="database" />,
@@ -37,14 +39,14 @@ export const items: Item[] = [
   
     // CI/CD
     <Banner logo={logos.dockerLogo} subtitle='Since 2022' title='Docker' sx={{ backgroundColor: "rgba(23, 25, 30,1)" }} dark key="BannerDocker" type="ci/cd" />,
-    <Banner logo={logos.githubLogo} subtitle='Since 2022' title='Github Actions' sx={{ backgroundColor: "rgb(100, 100, 100)" }} key="BannerGithubActions" type="ci/cd" />,
+    <Banner logo={logos.githubActionsLogo} subtitle='Since 2022' title='Github Actions' sx={{ backgroundColor: "rgb(31, 90, 100)" }} key="BannerGithubActions" type="ci/cd" />,
     <Banner logo={logos.harborLogo} subtitle='Since 2024' title='Harbor' sx={{ backgroundColor: "rgb(149, 70, 125)" }} key="BannerHarbor" type="ci/cd" />,
     <Banner logo={logos.jenkinsLogo} subtitle='Since 2023' title='Jenkins' sx={{ backgroundColor: "rgb(211, 56, 51)" }} key="BannerJenkins" type="ci/cd" />,
   
     // Other
     <Banner logo={logos.tuxLogo} subtitle='Since 2018' title='Linux' sx={{ backgroundColor: "rgb(25, 25, 25)" }} dark key="BannerLinux" type="other" />,
     <Banner logo={logos.gitLogo} subtitle='Since 2018' title='Git' sx={{ backgroundColor: "rgb(80, 90, 100)" }} key="BannerGit" type="other" />,
-    <Banner logo={logos.githubLogo} subtitle='Since 2018' title='JSON' sx={{ backgroundColor: "rgb(80, 90, 100)" }} key="BannerJSON" type="other" />,
+    <Banner logo={logos.jsonLogo} subtitle='Since 2018' title='JSON' sx={{ backgroundColor: "rgb(80, 90, 100)" }} key="BannerJSON" type="other" />,
     <Banner logo={logos.tuxLogo} subtitle='Since 2019' title='REST' sx={{ backgroundColor: "rgb(78, 32, 62)" }} key="BannerREST" type="other" />,
     <Banner logo={logos.cmakeLogo} subtitle='Since 2021' title='Make / CMake' sx={{ backgroundColor: "rgb(12, 85, 194)" }} key="BannerMake" type="other" />,
     <Banner logo={logos.gccLogo} subtitle='Since 2021' title='GCC' sx={{ backgroundColor: "rgb(255, 207, 171)" }} key="BannerGCC" type="other" />,

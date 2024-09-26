@@ -81,7 +81,7 @@ const InfoItem = <T extends CombinedProps>({ data }: { data: T }) => {
 
 
   const GeneralInfo = ({ data }: { data: { prop: string; value: string }[] }) => (
-    <Box className="flex flex-row mt-1 ml-8 mb-5">
+    <Box className="flex h-fit flex-row mt-1 ml-8 mb-5">
       <Box className="flex flex-col w-fit pr-4 text-right font-bold font-serif">
         {data.map(({ prop }, index) => (
           <Box className="w-fit self-end font-serif" key={index}>
@@ -246,8 +246,8 @@ const CV = () => {
       <Box className="flex flex-col w-full md:w-1/2">
         {/* Section 2, right */}
         <Box className="w-full border-2 h-full rounded-r-lg md:p-2">
-          <div className="flex justify-end md:justify-end content-end p-4">
-            <ProfilePicture src={Markus} className="w-32 h-32 md:w-48 md:h-48 mr-6 mt-6 absolute md:relative lg:relative xl:relavitve 2xl:relative" />
+          <div className="w-full sm:w-fit flex justify-end md:justify-center content-end p-4">
+            <ProfilePicture src={Markus} className="w-32 h-32 md:w-72 md:h-72 mr-6 mt-6 md:relative lg:relative xl:relavitve 2xl:relative" />
           </div>
           <Section title="&ensp;Ausbildung &ensp;">
             {job_education.map(

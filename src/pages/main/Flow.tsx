@@ -1,6 +1,8 @@
 import React from "react";
 import NeonBox, { NewLine } from "@/components/NeonBox";
 import Typography from "@mui/material/Typography";
+import useTheme from "@mui/material/styles/useTheme";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function Flow({
   className: _,
@@ -30,17 +32,23 @@ function Flow({
     boxData.map(() => React.createRef<HTMLDivElement>())
   );
 
+  const theme = useTheme();
+
+    // Medienabfrage, um die Bildschirmgröße zu ermitteln
+    const isSmaller = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <>
       <Typography variant="h3" className="text-center mt-5">
         Lifecycle meiner Dev-Umgebung
       </Typography>
-      <div className="relative flex flex-col items-center md:grid md:grid-cols-2 md:gap-4">
+      <div className="relative flex flex-col items-center md:grid md:grid-cols-2 md:gap-10">
         <NewLine boxRefs={boxRefs.current} />
         {boxData.map((text, index) => (
           <NeonBox
+            margin={isSmaller ? "20px" : undefined}
             key={index}
-            className={`my-4 w-11/12 md:w-full z-[99] ${
+            className={`my-10 w-11/12 md:w-full z-[99] ${
               index % 2 === 0 ? "md:justify-self-start" : "md:justify-self-end"
             }`}
             ref={boxRefs.current[index]}
