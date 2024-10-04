@@ -30,5 +30,6 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src", "../portfolio_api/src/interfaces/pagination.ts"],
+  "exclude": ["node_modules", "dist", "coverage"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
