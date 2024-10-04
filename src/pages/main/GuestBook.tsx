@@ -41,6 +41,7 @@ const GuestBook = ({
   });
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(4);
+  const [refetch, setRefetch] = useState(1);
 
   const handleChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
@@ -67,7 +68,7 @@ const GuestBook = ({
       setComments(data.data);
     };
     fetchComments();
-  }, [page, perPage]);
+  }, [page, perPage, refetch]);
 
   const startComment = (page - 1) * meta.perPage + 1;
   const endComment = Math.min(startComment + meta.perPage - 1, meta.total);
@@ -135,6 +136,7 @@ const GuestBook = ({
           await fetch(getBackendUrl() + "/comment", options);
           setSubmitting(false);
           resetForm();
+          setRefetch((prev) => prev + 1);
         }}
       >
         {({
@@ -175,6 +177,7 @@ const GuestBook = ({
                 required
                 fullWidth
                 margin="normal"
+                data-testid="author"
               />
               <TextField
                 id="email"
@@ -192,8 +195,10 @@ const GuestBook = ({
                 required
                 fullWidth
                 margin="normal"
+                data-testid="email"
               />
               <TextField
+                data-testid="profilepic"
                 id="profilepic"
                 label="Profile picture URL"
                 placeholder="https://example.com/picture.jpg"
@@ -236,6 +241,7 @@ const GuestBook = ({
             </Box>
             <Box component="div" className="flex w-full">
               <TextField
+                data-testid="content"
                 id="content"
                 label="Nachricht"
                 name="content"
@@ -280,6 +286,7 @@ const GuestBook = ({
               className="flex justify-center mt-4 space-x-2"
             >
               <button
+                data-testid="submit"
                 type="submit"
                 disabled={isSubmitting}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
