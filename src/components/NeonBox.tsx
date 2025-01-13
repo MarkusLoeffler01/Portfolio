@@ -58,7 +58,6 @@ const NeonBox = forwardRef<HTMLDivElement, NeonBoxProps>(
   // eslint-disable-next-line react/prop-types
   ({ backgroundColor, hoverBackgroundColor, margin, children, className }, ref) => {
 
-    console.log(margin);
     return (
       <StyledNeonBox
         ref={ref}
