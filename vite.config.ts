@@ -7,6 +7,12 @@ import svgr from 'vite-plugin-svgr';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+
+  server: {
+    watch: {
+      ignored: ["**/node_modules/**", "**/coverage/**", "**/dist/**", "**/build/**", "**/public/**"]
+    }
+  },
   // manualChunks
   build: {
     minify: "esbuild",
@@ -21,7 +27,8 @@ export default defineConfig({
           'mui': ['@mui/material'],
           "react-material-ui-carousel": ['react-material-ui-carousel'],
         }
-      }
+      },
+      external: ["coverage"]
     }
   },
   plugins: [react(), svgr()],
@@ -33,5 +40,5 @@ export default defineConfig({
       '@css': resolve(__dirname, '/src/css'),
       '@pages': resolve(__dirname, '/src/pages'),
     }
-  }
+  },
 })

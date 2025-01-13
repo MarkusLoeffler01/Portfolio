@@ -17,10 +17,13 @@ type Meta = {
 };
 
 type Comment = {
-  author: string;
+  id: number;
   content: string;
+  author: string;
+  createdAt: string;
+  updatedAt: string | null;
+  deleted: 0 | 1;
   profilePicture: string;
-  timestamp: Date;
 };
 
 const GuestBook = ({
@@ -41,6 +44,7 @@ const GuestBook = ({
   });
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(4);
+  const [refetch, setRefetch] = useState(1);
 
   const handleChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
@@ -64,10 +68,10 @@ const GuestBook = ({
         perPage: data.perPage,
         pages: data.pages,
       });
-      setComments(data.data);
+      setComments(data.data ?? []);
     };
     fetchComments();
-  }, [page, perPage]);
+  }, [page, perPage, refetch]);
 
   const startComment = (page - 1) * meta.perPage + 1;
   const endComment = Math.min(startComment + meta.perPage - 1, meta.total);
@@ -135,6 +139,7 @@ const GuestBook = ({
           await fetch(getBackendUrl() + "/comment", options);
           setSubmitting(false);
           resetForm();
+          setRefetch((prev) => prev + 1);
         }}
       >
         {({
@@ -175,6 +180,7 @@ const GuestBook = ({
                 required
                 fullWidth
                 margin="normal"
+                data-testid="author"
               />
               <TextField
                 id="email"
@@ -192,8 +198,10 @@ const GuestBook = ({
                 required
                 fullWidth
                 margin="normal"
+                data-testid="email"
               />
               <TextField
+                data-testid="profilepic"
                 id="profilepic"
                 label="Profile picture URL"
                 placeholder="https://example.com/picture.jpg"
@@ -236,6 +244,7 @@ const GuestBook = ({
             </Box>
             <Box component="div" className="flex w-full">
               <TextField
+                data-testid="content"
                 id="content"
                 label="Nachricht"
                 name="content"
@@ -272,7 +281,7 @@ const GuestBook = ({
                 timestamp={new Date()}
                 author={values.author}
                 content={values.content}
-                profilePicture={values.profilePicture}
+                profilePicture={errors.profilePicture ? undefined : values.profilePicture}
               />
             </Box>
             <Box
@@ -280,6 +289,7 @@ const GuestBook = ({
               className="flex justify-center mt-4 space-x-2"
             >
               <button
+                data-testid="submit"
                 type="submit"
                 disabled={isSubmitting}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -358,10 +368,10 @@ const GuestBook = ({
             }
           }}
         >
-          {comments.map((comment, index) => (
+          {comments?.map((comment, index) => (
             <GuestBookComment
               key={index}
-              timestamp={comment.timestamp}
+              timestamp={new Date(comment.createdAt)}
               author={comment.author}
               content={comment.content}
               profilePicture={comment.profilePicture}
