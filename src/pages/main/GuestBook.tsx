@@ -17,10 +17,13 @@ type Meta = {
 };
 
 type Comment = {
-  author: string;
+  id: number;
   content: string;
+  author: string;
+  createdAt: string;
+  updatedAt: string | null;
+  deleted: 0 | 1;
   profilePicture: string;
-  timestamp: Date;
 };
 
 const GuestBook = ({
@@ -65,7 +68,7 @@ const GuestBook = ({
         perPage: data.perPage,
         pages: data.pages,
       });
-      setComments(data.data);
+      setComments(data.data ?? []);
     };
     fetchComments();
   }, [page, perPage, refetch]);
@@ -365,10 +368,10 @@ const GuestBook = ({
             }
           }}
         >
-          {comments.map((comment, index) => (
+          {comments?.map((comment, index) => (
             <GuestBookComment
               key={index}
-              timestamp={comment.timestamp}
+              timestamp={new Date(comment.createdAt)}
               author={comment.author}
               content={comment.content}
               profilePicture={comment.profilePicture}
