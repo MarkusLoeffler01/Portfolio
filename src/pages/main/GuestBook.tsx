@@ -281,7 +281,7 @@ const GuestBook = ({
                 timestamp={new Date()}
                 author={values.author}
                 content={values.content}
-                profilePicture={values.profilePicture}
+                profilePicture={errors.profilePicture ? undefined : values.profilePicture}
               />
             </Box>
             <Box

@@ -15,7 +15,7 @@ const options: Intl.DateTimeFormatOptions = {
 
 type GuestBookCommentProps = {
   author: string;
-  profilePicture: string;
+  profilePicture?: string;
   content: string;
   timestamp: Date;
   timestampLocale?: Intl.DateTimeFormat;
@@ -49,7 +49,7 @@ function GuestBookComment({
     >
       <Box className="flex flex-col md:flex-row items-center md:items-start w-full">
         <ProfilePicture
-          src={profilePicture}
+          src={profilePicture ?? ""}
           className="w-20 h-20 md:w-24 md:h-24 mb-2 md:mb-0 md:mr-4 flex-shrink-0"
         />
         <Box className="flex-1 text-center md:text-left">
