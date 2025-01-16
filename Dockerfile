@@ -1,5 +1,5 @@
 # Stage 1: Build the React Vite project
-FROM node:21-alpine AS builder
+FROM node:22-alpine AS builder
 
 # Set working directory inside the container
 WORKDIR /app
@@ -11,7 +11,7 @@ RUN npm i -g typescript
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm i
 
 # Copy the rest of the application code
 COPY . .
