@@ -4,7 +4,8 @@ import Impressum from '@pages/impressum';
 import Datenschutz from '@pages/datenschutzerklärung';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import createTheme from '@mui/material/styles/createTheme';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router';
+import NotFound from './pages/404';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/datenschutz",
     element: <Datenschutz />,
+  },
+  {
+    path: "*",
+    element: <NotFound />
   }
 ]);
 
