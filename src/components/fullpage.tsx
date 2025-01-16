@@ -3,7 +3,7 @@ import "@css/waves.css";
 import Wave from "./shapes/wavesOpacity";
 
 interface FullPageWrapperProps {
-  children: React.ReactNode;
+  children: React.ReactElement<{color: string}>[];
 }
 
 const FullPageWrapper: React.FC<FullPageWrapperProps> = ({ children }) => {
