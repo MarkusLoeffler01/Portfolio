@@ -92,7 +92,7 @@ const GuestBook = ({
         Gästebuch
       </Typography>
       <Typography variant="subtitle1" gutterBottom>
-        Verweigen Sie sich
+        Verewigen Sie sich
       </Typography>
 
       <Formik
