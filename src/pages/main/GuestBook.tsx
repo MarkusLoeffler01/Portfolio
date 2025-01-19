@@ -75,7 +75,7 @@ const GuestBook = ({
 
   const startComment = (page - 1) * meta.perPage + 1;
   const endComment = Math.min(startComment + meta.perPage - 1, meta.total);
-  const displayText = `Showing comments ${startComment}-${endComment} out of ${meta.total}`;
+  const displayText = `Zeige Kommentare ${startComment}-${endComment} von ${meta.total}`;
   return (
     <Box
       sx={{
@@ -88,11 +88,11 @@ const GuestBook = ({
         padding: "2rem 1rem",
       }}
     >
-      <Typography variant="h4" component="h1" gutterBottom>
-        Guestbook
+      <Typography variant="h2" component="h1" gutterBottom>
+        Gästebuch
       </Typography>
       <Typography variant="subtitle1" gutterBottom>
-        Leave a message!
+        Verweigen Sie sich
       </Typography>
 
       <Formik
@@ -275,7 +275,7 @@ const GuestBook = ({
               mt={2}
             >
               <Typography variant="h6" gutterBottom>
-                Hier siehst du die Vorschau deines Posts:
+                Hier sehen Sie die Vorschau Ihres Posts:
               </Typography>
               <GuestBookComment
                 timestamp={new Date()}

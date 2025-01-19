@@ -64,7 +64,7 @@ const InfoItem = <T extends CombinedProps>({ data }: { data: T }) => {
               </Box>
             )}
             {data.degree && data.degree.length > 0 && (
-              <Box className="font-normal font-serif mt-1">
+              <Box className="font-bold font-serif mt-1">
                 {data.degree.map((d, index) => (
                   <Box key={index} className="mt-1 ml-4 list-disc">
                     {d}
@@ -103,11 +103,13 @@ const EducationInfo = ({
   to,
   school,
   degree,
+  isJob = false,
 }: {
   from: string;
   to?: string;
   school?: string;
   degree?: string[];
+  isJob?: boolean;
 }) => (
   <Box className="flex flex-col font-bold mt-1 ml-8 mb-5">
     <Typography component="span" className="flex flex-col w-full text-start">
@@ -121,9 +123,9 @@ const EducationInfo = ({
       )}
       {degree && (
         <Box className="font-bold font-serif mt-1">
-          Abschluss:
+          {isJob ? "Tätigkeit:" : "Abschluss:"}
           {degree.map((d, index) => (
-            <Box key={index} component="div" className="font-bold font-serif">
+            <Box key={index} component="div" className="font-bold font-serif pl-3">
               {d}
             </Box>
           ))}
@@ -215,6 +217,7 @@ const CV = () => {
     {
       from: "Juni 2022",
       to: "Juni 2024",
+      company: "netcare Business Solutions GmbH",
       titles: [
         "Dev-Ops Engineer",
         "Full-Stack Developer",
@@ -222,6 +225,15 @@ const CV = () => {
         "Infrastructure Engineer",
       ],
     },
+    {
+      from: "September 2024",
+      to: "Januar 2025",
+      company: "merlin.zwo GmbH",
+      titles: [
+        "Systementwickler",
+        "Oracle Apex Entwickler"
+      ]
+    }
   ];
 
   const interns: { date: string; company: string }[] = [
@@ -263,12 +275,14 @@ const CV = () => {
             )}
           </Section>
           <Section title="&ensp;Berufserfahrung &ensp;">
-            {job_experience.map(({ from, to, titles }, index) => (
+            {job_experience.map(({ from, to, titles, company }, index) => (
               <EducationInfo
                 key={index}
                 from={from}
+                school={company}
                 to={to}
                 degree={titles}
+                isJob={true}
               />
             ))}
           </Section>
@@ -285,7 +299,7 @@ const CV = () => {
 
 const Name = () => (
   <Box className="w-full h-fit flex flex-col text-center">
-    <Typography variant="h4" fontFamily="Pacifico">
+    <Typography variant="h2" fontFamily="Pacifico">
       Markus Löffler
     </Typography>
   </Box>
@@ -309,7 +323,6 @@ const Biography = () => (
     <Box>
       <Typography
         variant="body1"
-        fontFamily="Roboto"
         sx={{
           fontSize: {
             md: "1rem",
@@ -320,8 +333,7 @@ const Biography = () => (
       >
         Herzlich Willkommen auf meinem Portfolio. Ich heiße Markus, bin{" "}
         {age(new Date("2001-07-31"))} Jahre alt und beschäftige mich seit {" "}
-        {age(new Date("2018-05-31"))} Jahren mit JavaScript. In meiner Freizeit spiele ich
-        Handball, lerne Japanisch (まさに、日本人), entwickle eigene Projekte und informiere mich über neue Technologien. 
+        {age(new Date("2018-05-31"))} Jahren mit JavaScript. In meiner Freizeit mache ich gerne Sport, zeige Engegement in einer demokratischen Partei, lerne Japanisch (まさに、日本人), entwickle eigene Projekte und informiere mich über neue Technologien. 
         Ich nutze privat ausschließlich Linux für meine Projekte und bin ein großer Verfechter von Open-Source-Software.
         Die Arbeit mit React begeistert mich besonders, da ich Komponenten modular entwickeln und wiederverwenden kann. So konnte ich auch diese Website praktisch umsetzen.
         <br />
@@ -336,7 +348,7 @@ const Biography = () => (
         justifyContent="center"
         mt={2}
       >
-        <Typography fontFamily="Roboto">
+        <Typography>
           Das GitHub-Repository finden Sie hier --&gt;&nbsp;
         </Typography>
         <img

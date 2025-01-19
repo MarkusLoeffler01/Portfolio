@@ -119,7 +119,7 @@ const Projects = ({color: _}: {color: string}) => {
   return (
     <>
         <Typography variant="h2" align="center" sx={{ color: '#ffffff' }}>
-          Projects
+          Projekte
         </Typography>
         <GridBox>
             {todoProjects.map((project, index) => (
