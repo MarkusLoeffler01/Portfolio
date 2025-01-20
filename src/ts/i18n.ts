@@ -17,7 +17,7 @@ const options:InitOptions = {
                 "Tätigkeit": "Occupation",
                 "Abschluss": "Degree",
                 "Juni": "June",
-                "Fachinfoirmatiker für Anwendungsentwicklung": "IT Specialist for Application Development",
+                "Fachinformatiker für Anwendungsentwicklung": "IT Specialist for Application Development",
                 "Fachhochschulreife": "University of Applied Sciences Entrance Qualification",
                 "Staatlich geprüfter informations- und kommunikationstechnischer Assistent": "State-certified information and communication technology assistant",
                 "Mittlere Reife": "Secondary School Leaving Certificate",
@@ -74,7 +74,9 @@ const options:InitOptions = {
                 "Seit": "since",
                 "Meine Skills": "My Skills",
                 "Filter by Category": "Filter by Category",
-                "Entwicklungsprozess": "Development Process"
+                "Entwicklungsprozess": "Development Process",
+                "Projekte": "Projects",
+                "Oracle Apex Entwickler": "Oracle Apex Developer",
             }
         },
         de: {
@@ -89,7 +91,7 @@ const options:InitOptions = {
                 "Tätigkeit": "Tätigkeit",
                 "Abschluss": "Abschluss",
                 "Juni": "Juni",
-                "Fachinfoirmatiker für Anwendungsentwicklung": "Fachinfoirmatiker für Anwendungsentwicklung",
+                "Fachinformatiker für Anwendungsentwicklung": "Fachinformatiker für Anwendungsentwicklung",
                 "Fachhochschulreife": "Fachhochschulreife",
                 "Staatlich geprüfter informations- und kommunikationstechnischer Assistent": "Staatlich geprüfter informations- und kommunikationstechnischer Assistent",
                 "Mittlere Reife": "Mittlere Reife",
@@ -146,7 +148,9 @@ const options:InitOptions = {
                 "Seit": "Seit",
                 "Meine Skills": "Meine Skills",
                 "Filter by Category": "Filtern nach Kategorie",
-                "Entwicklungsprozess": "Entwicklungsprozess"
+                "Entwicklungsprozess": "Entwicklungsprozess",
+                "Projekte": "Projekte",
+                "Oracle Apex Entwickler": "Oracle Apex Entwickler",
             }            
         }
     },
@@ -155,7 +159,7 @@ const options:InitOptions = {
     interpolation: {
         escapeValue: false
     },
-    debug: true
+    debug: false
 };
 
 

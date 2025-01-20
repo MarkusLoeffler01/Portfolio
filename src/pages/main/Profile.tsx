@@ -6,6 +6,7 @@ import "@css/font.css";
 import { age } from "@/ts/calc";
 import ProfilePicture from "@/components/shapes/profilePicture";
 import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 
 interface InfoProps {
@@ -238,7 +239,7 @@ const CV = () => {
           <Section title="&ensp;Persönliche Daten &ensp;">
             <GeneralInfo data={val} />
           </Section>
-          <Section title={`\u2002${t("Ausbilding")}\u2002`}>
+          <Section title={`\u2002${t("Ausbildung")}\u2002`}>
             {education.map(({ from, to, school, degree }, index) => (
             <InfoItem key={index} data={{from, to, school, degree}} />
             ))}
@@ -251,7 +252,7 @@ const CV = () => {
           <div className="w-full sm:w-fit flex justify-end md:justify-center content-end p-4">
             <ProfilePicture src={Markus} className="w-32 h-32 md:w-72 md:h-72 mr-6 mt-6 md:relative lg:relative xl:relavitve 2xl:relative" />
           </div>
-          <Section title={`\u2002${t("Ausbilding")}\u2002`}>
+          <Section title={`\u2002${t("Ausbildung")}\u2002`}>
             {job_education.map(
               ({ from, to, company, description }, index) => (
                 <EducationInfo
@@ -377,10 +378,14 @@ const Profile = ({
   className?: string;
 }) => {
   return (
-    <div className="flex flex-col md:flex-row items-stretch flex-1 w-full h-full">
-      <Introduction />
-      <CV />
-    </div>
+    <>
+      <LanguageSwitcher />
+      <div className="flex flex-col md:flex-row items-stretch flex-1 w-full h-full mt-20">
+
+        <Introduction />
+        <CV />
+      </div>
+    </>
   );
 };
 
