@@ -3,13 +3,14 @@ import SkillSliderComponent from "@components/SkillsSlider";
 import { items, banners } from '@/data/skillSliderItems';
 
 
-import Select, { SelectChangeEvent} from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Checkbox from "@mui/material/Checkbox";
 import ListItemText from "@mui/material/ListItemText";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { skillType } from '@/interfaces/skillType';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -17,6 +18,7 @@ import { skillType } from '@/interfaces/skillType';
 
 
 const NewFilter = ({ selectedItems, setItems }: { selectedItems: string[], setItems: (items: string[]) => void }) => {
+  const { t } = useTranslation();
   const handleChange = (event: SelectChangeEvent<string[]>) => {
     setItems((event.target.value as string[]).map(item => {
       console.log(items.find(i => i.shortLabel === item)?.shortLabel.toString());
@@ -25,7 +27,7 @@ const NewFilter = ({ selectedItems, setItems }: { selectedItems: string[], setIt
   };
 
   return (<FormControl sx={{ width: "50%", float: "right", marginBottom: "10px" }}>
-    <InputLabel id="multi-select-dropdown-label" >Filter by Category</InputLabel>
+    <InputLabel id="multi-select-dropdown-label" >{t("Filter by Category")}</InputLabel>
     <Select
       labelId="multi-select-dropdown-label"
       id="multi-select-dropdown"
@@ -47,13 +49,14 @@ const NewFilter = ({ selectedItems, setItems }: { selectedItems: string[], setIt
 
 };
 
-const SkillSlider = ({color: _, viewHeight: __}: {color?: string, viewHeight?: number}) => {
+const SkillSlider = ({ color: _, viewHeight: __ }: { color?: string, viewHeight?: number }) => {
 
   const [skillShortNameFilter, setSkillShortNameFilter] = useState<string[]>([]);
+  const { t } = useTranslation();
 
   return (
     <>
-    <h1 className="mb-10">Meine Skills</h1>
+      <h1 className="mb-10">{t("Meine Skills")}</h1>
       <NewFilter selectedItems={skillShortNameFilter} setItems={setSkillShortNameFilter} />
       <SkillSliderComponent>
         {banners.filter((banner) => {

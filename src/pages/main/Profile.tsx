@@ -5,6 +5,7 @@ import "@css/font.css";
 
 import { age } from "@/ts/calc";
 import ProfilePicture from "@/components/shapes/profilePicture";
+import { useTranslation } from "react-i18next";
 
 
 interface InfoProps {
@@ -20,22 +21,6 @@ interface EducationInfoProps {
 }
 
 type CombinedProps = InfoProps | EducationInfoProps;
-
-// const Info = ({ prop, value }: { prop: string; value: string }) => (
-//     <Box className="flex flex-col sm:flex-row font-bold mt-1 ml-8 text-lg">
-//       <Typography component="span" className="flex flex-col sm:flex-row w-full text-start">
-//         <Box className="sm:w-fit w-1/3 font-bold font-serif mr-10">
-//           {prop}:
-//         </Box>
-//         <Box sx={{}}>
-
-//         </Box>
-//         <Box className="sm:w-fit w-2/3 font-bold font-serif">
-//           {value}
-//         </Box>
-//       </Typography>
-//     </Box>
-//   );
 
 const InfoItem = <T extends CombinedProps>({ data }: { data: T }) => {
     return (
@@ -110,8 +95,11 @@ const EducationInfo = ({
   school?: string;
   degree?: string[];
   isJob?: boolean;
-}) => (
-  <Box className="flex flex-col font-bold mt-1 ml-8 mb-5">
+}) => {
+
+  const { t } = useTranslation();
+
+  return <Box className="flex flex-col font-bold mt-1 ml-8 mb-5">
     <Typography component="span" className="flex flex-col w-full text-start">
       <Box className="font-bold font-serif mt-1 text-lg">
         {to ? `${from} - ${to}` : from}
@@ -123,7 +111,7 @@ const EducationInfo = ({
       )}
       {degree && (
         <Box className="font-bold font-serif mt-1">
-          {isJob ? "Tätigkeit:" : "Abschluss:"}
+          {isJob ? t("Tätigkeit") : t("Abschluss")}:
           {degree.map((d, index) => (
             <Box key={index} component="div" className="font-bold font-serif pl-3">
               {d}
@@ -133,7 +121,7 @@ const EducationInfo = ({
       )}
     </Typography>
   </Box>
-);
+}
 
 const Section = ({
   children,
@@ -152,12 +140,14 @@ const Section = ({
 );
 
 const CV = () => {
+  const { t, i18n } = useTranslation();
+  const changeLanguage = (lng: string) => i18n.changeLanguage(lng);
   const val = [
-    { prop: "Vorname", value: "Markus" },
-    { prop: "Nachname", value: "Löffler" },
-    { prop: "Geburtstag", value: "31.07.2001" },
-    { prop: "Titel", value: "Full-Stack-Entwickler" },
-    { prop: "Wohnsitz", value: "LK Reutlingen" },
+    { prop: t("Vorname"), value: "Markus" },
+    { prop: t("Nachname"), value: "Löffler" },
+    { prop: t("Geburtstag"), value: "31.07.2001" },
+    { prop: t("Titel"), value: t("Full-Stack-Entwickler") },
+    { prop: t("Wohnsitz"), value: t("LK Reutlingen") },
   ];
 
   const education: {
@@ -168,29 +158,29 @@ const CV = () => {
   }[] = [
     {
       from: "2019",
-      to: "Juni 2022",
+      to: t("Juni")+" 2022",
       school: "it.schule Stuttgart",
-      degree: ["Fachinformatiker für Anwendungsentwicklung"],
+      degree: [t("Fachinformatiker für Anwendungsentwicklung")],
     },
     {
       from: "2017",
       to: "2019",
       school: "Ferdinand-von-Steinbeis-Schule Reutlingen",
       degree: [
-        "Fachhochschulreife",
-        "Staatlich geprüfter informations- und kommunikationstechnischer Assistent",
+        t("Fachhochschulreife"),
+        t("Staatlich geprüfter informations- und kommunikationstechnischer Assistent"),
       ],
     },
     {
       from: "2011",
       to: "2017",
       school: "Geschwister-Scholl-Realschule Bad Urach",
-      degree: ["Mittlere Reife"],
+      degree: [t("Mittlere Reife")],
     },
     {
       from: "2007",
       to: "2011",
-      school: "Grundschule Dettingen",
+      school: `${t("Grundschule")} Dettingen`,
     },
   ];
 
@@ -201,10 +191,10 @@ const CV = () => {
     description: string;
   }[] = [
     {
-      from: "September 2019",
-      to: "Juni 2022",
-      company: "Putzmeister Gruppe",
-      description: "Ausbildung zum Fachinformatiker Anwendungsentwicklung",
+      from: `${t("September")} 2019`,
+      to: `${t("Juni")} 2022`,
+      company: `Putzmeister ${t("Gruppe")}`,
+      description: t("Ausbildung zum Fachinformatiker Anwendungsentwicklung"),
     },
   ];
 
@@ -215,8 +205,8 @@ const CV = () => {
     titles: string[];
   }[] = [
     {
-      from: "Juni 2022",
-      to: "Juni 2024",
+      from: `${t("Juni")} 2022`,
+      to: `${t("Juni")} 2024`,
       company: "netcare Business Solutions GmbH",
       titles: [
         "Dev-Ops Engineer",
@@ -226,18 +216,18 @@ const CV = () => {
       ],
     },
     {
-      from: "September 2024",
-      to: "Januar 2025",
+      from: `${t("September")} 2024`,
+      to: `${t("Januar")} 2025`,
       company: "merlin.zwo GmbH",
       titles: [
-        "Systementwickler",
-        "Oracle Apex Entwickler"
+        t(`Systementwickler`),
+        t(`Oracle Apex Entwickler`)
       ]
     }
   ];
 
   const interns: { date: string; company: string }[] = [
-    { date: "Juni 2018", company: "Advanced UniByte GmbH, Metzingen" },
+    { date: `${t("Juni")} 2018`, company: "Advanced UniByte GmbH, Metzingen" },
   ];
 
   return (
@@ -248,7 +238,7 @@ const CV = () => {
           <Section title="&ensp;Persönliche Daten &ensp;">
             <GeneralInfo data={val} />
           </Section>
-          <Section title="&ensp;Ausbildung &ensp;">
+          <Section title={`\u2002${t("Ausbilding")}\u2002`}>
             {education.map(({ from, to, school, degree }, index) => (
             <InfoItem key={index} data={{from, to, school, degree}} />
             ))}
@@ -261,7 +251,7 @@ const CV = () => {
           <div className="w-full sm:w-fit flex justify-end md:justify-center content-end p-4">
             <ProfilePicture src={Markus} className="w-32 h-32 md:w-72 md:h-72 mr-6 mt-6 md:relative lg:relative xl:relavitve 2xl:relative" />
           </div>
-          <Section title="&ensp;Ausbildung &ensp;">
+          <Section title={`\u2002${t("Ausbilding")}\u2002`}>
             {job_education.map(
               ({ from, to, company, description }, index) => (
                 <EducationInfo
@@ -274,7 +264,7 @@ const CV = () => {
               )
             )}
           </Section>
-          <Section title="&ensp;Berufserfahrung &ensp;">
+          <Section title={`\u2002${t("Berufserfahrung")}\u2002`}>
             {job_experience.map(({ from, to, titles, company }, index) => (
               <EducationInfo
                 key={index}
@@ -286,7 +276,7 @@ const CV = () => {
               />
             ))}
           </Section>
-          <Section title="&ensp;Praktika&ensp;">
+          <Section title={`\u2002${t("Praktika")}\u2002`}>
             {interns.map(({ date, company }, index) => (
               <EducationInfo key={index} from={date} school={company} />
             ))}
@@ -319,8 +309,9 @@ const Quote = () => (
   </Box>
 );
 
-const Biography = () => (
-    <Box>
+const Biography = () => {
+  const { t } = useTranslation();
+    return <Box>
       <Typography
         variant="body1"
         sx={{
@@ -331,14 +322,14 @@ const Biography = () => (
           },
         }}
       >
-        Herzlich Willkommen auf meinem Portfolio. Ich heiße Markus, bin{" "}
-        {age(new Date("2001-07-31"))} Jahre alt und beschäftige mich seit {" "}
-        {age(new Date("2018-05-31"))} Jahren mit JavaScript. In meiner Freizeit mache ich gerne Sport, zeige Engegement in einer demokratischen Partei, lerne Japanisch (まさに、日本人), entwickle eigene Projekte und informiere mich über neue Technologien. 
-        Ich nutze privat ausschließlich Linux für meine Projekte und bin ein großer Verfechter von Open-Source-Software.
-        Die Arbeit mit React begeistert mich besonders, da ich Komponenten modular entwickeln und wiederverwenden kann. So konnte ich auch diese Website praktisch umsetzen.
+        {t("Herzlich Willkommen auf meinem Portfolio. Ich heiße Markus, bin")}{" "}
+        {age(new Date("2001-07-31"))} {t("Jahre alt und beschäftige mich seit")} {" "}
+        {age(new Date("2018-05-31"))} {t("Jahren mit JavaScript. In meiner Freizeit mache ich gerne Sport, zeige Engegement in einer demokratischen Partei, lerne Japanisch (まさに、日本人), entwickle eigene Projekte und informiere mich über neue Technologien.")} 
+        {t("Ich nutze privat ausschließlich Linux für meine Projekte und bin ein großer Verfechter von Open-Source-Software.")}
+        {t("Die Arbeit mit React begeistert mich besonders, da ich Komponenten modular entwickeln und wiederverwenden kann. So konnte ich auch diese Website praktisch umsetzen.")}
         <br />
         <br />
-        Anbei finden Sie meinen Lebenslauf sowie weitere Informationen über meine Fähigkeiten, meiner Arbeitsweise und Kontaktdaten. Ich freue mich darauf, mich persönlich bei Ihnen vorzustellen und mehr über die Möglichkeiten einer Zusammenarbeit zu erfahren.
+        {t("Anbei finden Sie meinen Lebenslauf sowie weitere Informationen über meine Fähigkeiten, meiner Arbeitsweise und Kontaktdaten. Ich freue mich darauf, mich persönlich bei Ihnen vorzustellen und mehr über die Möglichkeiten einer Zusammenarbeit zu erfahren.")}
       </Typography>
       {/* Das DIV wurde außerhalb des Typography-Elements platziert */}
       <Box
@@ -349,7 +340,7 @@ const Biography = () => (
         mt={2}
       >
         <Typography>
-          Das GitHub-Repository finden Sie hier --&gt;&nbsp;
+          {t("Das GitHub-Repository finden Sie hier")} --&gt;&nbsp;
         </Typography>
         <img
           alt="GitHub Repository"
@@ -363,7 +354,7 @@ const Biography = () => (
         />
       </Box>
     </Box>
-  );
+};
 
 const Introduction = () => (
     /**

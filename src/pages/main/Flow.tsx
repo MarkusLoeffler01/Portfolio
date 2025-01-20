@@ -3,6 +3,7 @@ import NeonBox, { NewLine } from "@/components/NeonBox";
 import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTranslation } from "react-i18next";
 
 function Flow({
   className: _,
@@ -13,19 +14,20 @@ function Flow({
   color?: string;
   viewHeight?: number;
 }) {
+  const { t } = useTranslation();
   const boxData = [
-    "Code in neuem Branch schreiben und pushen.",
-    "Tests schreiben und validieren",
-    "Pull Request auf Dev-Branch erstellen",
-    "Branch-Umgebung wird durch Action deployed",
-    "Branch-Umgebung wird getestet",
-    "Branch wird nach Validierung in Dev gemerged",
-    "Dev-Umgebung wird durch Action deployed",
-    "Dev-Umgebung wird getestet",
-    "Pull Request auf main wird erstellt",
-    "Staging-Umgebung wird durch Action deployed",
-    "Staging-Umgebung wird getestet",
-    "Durch Merge wird main zu Live-Umgebung deployed",
+    t("Code in neuem Branch schreiben und pushen"),
+    t("Tests schreiben und validieren"),
+    t("Pull Request auf Dev-Branch erstellen"),
+    t("Branch-Umgebung wird durch Action deployed"),
+    t("Branch-Umgebung wird getestet"),
+    t("Branch wird nach Validierung in Dev gemerged"),
+    t("Dev-Umgebung wird durch Action deployed"),
+    t("Dev-Umgebung wird getestet"),
+    t("Pull Request auf main wird erstellt"),
+    t("Staging-Umgebung wird durch Action deployed"),
+    t("Staging-Umgebung wird getestet"),
+    t("Durch Merge wird main zu Live-Umgebung deployed"),
   ];
 
   const boxRefs = React.useRef(
@@ -40,7 +42,7 @@ function Flow({
   return (
     <>
       <Typography variant="h3" className="text-center mt-5">
-        Lifecycle meiner Dev-Umgebung
+        {t("Entwicklungsprozess")}
       </Typography>
       <div className="relative flex flex-col items-center md:grid md:grid-cols-2 md:gap-10">
         <NewLine boxRefs={boxRefs.current} />

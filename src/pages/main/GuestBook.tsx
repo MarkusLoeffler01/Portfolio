@@ -8,6 +8,7 @@ import InputLabel from "@mui/material/InputLabel";
 import { isValidUrl } from "@/ts/check";
 import { getBackendUrl } from "@/ts/helper";
 import GuestBookComment from "@/components/guestbook/comment";
+import { useTranslation } from "react-i18next";
 
 type Meta = {
   total: number;
@@ -35,6 +36,7 @@ const GuestBook = ({
   className?: string;
   viewHeight?: number;
 }) => {
+  const { t } = useTranslation();
   const [comments, setComments] = useState<Comment[]>([]);
   const [meta, setMeta] = useState<Meta>({
     total: 0,
@@ -75,7 +77,7 @@ const GuestBook = ({
 
   const startComment = (page - 1) * meta.perPage + 1;
   const endComment = Math.min(startComment + meta.perPage - 1, meta.total);
-  const displayText = `Zeige Kommentare ${startComment}-${endComment} von ${meta.total}`;
+  const displayText = `${t("Zeige Kommentare")} ${startComment}-${endComment} ${t("von")} ${meta.total}`;
   return (
     <Box
       sx={{
@@ -89,10 +91,10 @@ const GuestBook = ({
       }}
     >
       <Typography variant="h2" component="h1" gutterBottom>
-        Gästebuch
+        {t("Gästebuch")}
       </Typography>
       <Typography variant="subtitle1" gutterBottom>
-        Verewigen Sie sich
+        {t("Verewigen Sie sich")}
       </Typography>
 
       <Formik
@@ -109,18 +111,18 @@ const GuestBook = ({
             content?: string;
             profilePicture?: string;
           } = {};
-          if (!values.author) errors.author = "Required";
-          if (!values.content) errors.content = "Required";
+          if (!values.author) errors.author = t("Pflichtfeld");
+          if (!values.content) errors.content = t("Pflichtfeld");
           if (values.profilePicture && !isValidUrl(values.profilePicture))
-            errors.profilePicture = "Invalid url";
-          if (!values.email) errors.email = "Required";
+            errors.profilePicture = t("Ungültige URL");
+          if (!values.email) errors.email = t("Pflichtfeld");
           else if (
             !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
           )
-            errors.email = "Invalid email address";
+            errors.email = t("Ungültige Email Adresse");
 
           if (values.profilePicture?.length > 512)
-            errors.profilePicture = "Url too long";
+            errors.profilePicture = t("URL zu lang");
 
           return errors;
         }}
@@ -203,7 +205,7 @@ const GuestBook = ({
               <TextField
                 data-testid="profilepic"
                 id="profilepic"
-                label="Profile picture URL"
+                label={t("Profilbild URL")}
                 placeholder="https://example.com/picture.jpg"
                 name="profilePicture"
                 variant="outlined"
@@ -217,7 +219,7 @@ const GuestBook = ({
                 }
                 helperText={
                   values.profilePicture === "" && touched.profilePicture
-                    ? "A profile picture would make you look better :^)"
+                    ? t("Ein Profilbild würde besser aussehen :^)")
                     : errors.profilePicture
                 }
                 value={values.profilePicture}
@@ -246,7 +248,7 @@ const GuestBook = ({
               <TextField
                 data-testid="content"
                 id="content"
-                label="Nachricht"
+                label={t("Nachricht")}
                 name="content"
                 multiline
                 rows={4}
@@ -275,7 +277,7 @@ const GuestBook = ({
               mt={2}
             >
               <Typography variant="h6" gutterBottom>
-                Hier sehen Sie die Vorschau Ihres Posts:
+                {t("Hier sehen Sie die Vorschau Ihres Posts")}:
               </Typography>
               <GuestBookComment
                 timestamp={new Date()}
@@ -294,14 +296,14 @@ const GuestBook = ({
                 disabled={isSubmitting}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               >
-                Submit
+                {t("Absenden")}
               </button>
               <button
                 type="reset"
                 onClick={handleReset}
                 className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
               >
-                Reset
+                {t("Zurücksetzen")}
               </button>
             </Box>
           </Box>
@@ -340,7 +342,7 @@ const GuestBook = ({
               alignItems: "center",
             }}
           >
-            <InputLabel htmlFor="commentCount">Comments per page:</InputLabel>
+            <InputLabel htmlFor="commentCount">{t("Kommentare pro Seite")}:</InputLabel>
             <TextField
               id="commentCount"
               name="commentCount"

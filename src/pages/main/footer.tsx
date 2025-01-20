@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import GithubLogo from "@assets/github.svg?react";
 import LinkedInLogo from "@assets/linkedin.svg?react";
+import { useTranslation } from "react-i18next";
 
 export default function Footer({
   color: _,
@@ -11,6 +12,7 @@ export default function Footer({
   height?: number | string;
   noWave?: boolean;
 }) {
+  const { t } = useTranslation();
   return (
     <Box
       sx={{
@@ -101,10 +103,10 @@ export default function Footer({
           }}
         >
           <a href="/impressum" target="_blank">
-            Impressum
+            {t("Impressum")}
           </a>
           <a href="/datenschutz" target="_blank">
-            Datenschutzerklärung
+            {t("Datenschutzerklärung")}
           </a>
         </Box>
       </Box>
