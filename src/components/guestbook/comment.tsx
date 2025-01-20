@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import useTheme from "@mui/material/styles/useTheme";
+import { useTranslation } from "react-i18next";
 
 const options: Intl.DateTimeFormatOptions = {
   year: "numeric",
@@ -29,6 +30,7 @@ function GuestBookComment({
   timestampLocale = new Intl.DateTimeFormat(navigator.language, options),
 }: GuestBookCommentProps) {
 
+    const { t } = useTranslation();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -62,7 +64,7 @@ function GuestBookComment({
               color="textSecondary"
               className="md:ml-2 mt-1 md:mt-0"
             >
-              { isMobile || <>schrieb am &nbsp;</> }
+              { isMobile || <>{t("schrieb am")} &nbsp;</> }
             </Typography>
             <Typography
               variant="body2"

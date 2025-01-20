@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { keyframes } from '@mui/system';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
+import { useTranslation } from 'react-i18next';
 
 const glitch = keyframes`
   0% {
@@ -42,6 +43,7 @@ const float = keyframes`
 `;
 
 const NotFound = () => {
+  const { t } = useTranslation();
   return (
     <Box
       sx={{
@@ -97,7 +99,7 @@ const NotFound = () => {
           fontWeight: 300
         }}
       >
-        Beep Boop! Diese Seite scheint im Cyberspace verloren gegangen zu sein
+        {t("Beep Boop! Diese Seite scheint im Cyberspace verloren gegangen zu sein")}
       </Typography>
       <Button 
         variant="outlined"
@@ -119,7 +121,7 @@ const NotFound = () => {
           }
         }}
       >
-        Nach Hause telefonieren
+        {t("Nach Hause telefonieren")}
       </Button>
     </Box>
   );

@@ -55,11 +55,6 @@ function SkillSlider({ children }: { children: React.ReactNode }) {
           width: "100%",
           border: "1px solid white",
           borderRadius: "15px",
-        //   height: {
-        //     xs: "250px", // Für Mobilgeräte
-        //     sm: "350px", // Für kleine Bildschirme und darüber
-        //     md: "450px", // Für mittlere Bildschirme und darüber
-        //   },
         }}
       >
         {children}

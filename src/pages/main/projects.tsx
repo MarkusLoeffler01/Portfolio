@@ -4,6 +4,7 @@ import { styled } from '@mui/system';
 import CheckList from "@mui/icons-material/Checklist";
 import GlowingCard from '@components/GlowCard';
 import ReactLogo from "@assets/react.svg?react"
+import { useTranslation } from 'react-i18next';
 
 interface ProjectCardProps {
   title: string;
@@ -107,9 +108,10 @@ type Project = {
 } 
 
 const Projects = ({color: _}: {color: string}) => {
+  const { t } = useTranslation();
   const todoProjects: Project[] = [{
     title: "ToDo App",
-    description: "A modern Todo application built with React, featuring real-time updates and local storage persistence.",
+    description: t("Eine moderne Todo Application, gebaut mit React, mit Echtzeit-Updates und lokaler Speicherung."),
     icon: <CheckList sx={{ width: '64px', height: '64px', color: '#4CAF50' }} />,
     technologies: [<ReactLogo width="40px" key="reactLogo" height="40px" />],
     githubLink: "https://github.com/MarkusLoeffler01/portfolio-todo-react",
@@ -119,7 +121,7 @@ const Projects = ({color: _}: {color: string}) => {
   return (
     <>
         <Typography variant="h2" align="center" sx={{ color: '#ffffff' }}>
-          Projekte
+          {t("Projekte")}
         </Typography>
         <GridBox>
             {todoProjects.map((project, index) => (
