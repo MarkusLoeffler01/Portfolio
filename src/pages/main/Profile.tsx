@@ -141,8 +141,7 @@ const Section = ({
 );
 
 const CV = () => {
-  const { t, i18n } = useTranslation();
-  const changeLanguage = (lng: string) => i18n.changeLanguage(lng);
+  const { t } = useTranslation();
   const val = [
     { prop: t("Vorname"), value: "Markus" },
     { prop: t("Nachname"), value: "Löffler" },

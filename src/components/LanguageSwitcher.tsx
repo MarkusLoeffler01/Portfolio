@@ -52,7 +52,7 @@ const LanguageSwitcher = () => {
               : 'grayscale(0.5)',
           }}
         >
-          <English sx={{ width: 40, height: 40 }} />
+          <English />
         </IconButton>
       </Tooltip>
       
@@ -77,7 +77,7 @@ const LanguageSwitcher = () => {
               : 'grayscale(0.5)',
           }}
         >
-          <German sx={{ width: 40, height: 40 }} />
+          <German />
         </IconButton>
       </Tooltip>
     </Box>
