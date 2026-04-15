@@ -77,6 +77,9 @@ const options:InitOptions = {
                 "Entwicklungsprozess": "Development Process",
                 "Projekte": "Projects",
                 "Oracle Apex Entwickler": "Oracle Apex Developer",
+                "Softwareentwickler": "Software Developer",
+                "Consultant": "Consultant",
+                "Juli": "July"
             }
         },
         de: {
@@ -151,6 +154,9 @@ const options:InitOptions = {
                 "Entwicklungsprozess": "Entwicklungsprozess",
                 "Projekte": "Projekte",
                 "Oracle Apex Entwickler": "Oracle Apex Entwickler",
+                "Softwareentwickler": "Softwareentwickler",
+                "Consultant": "Consultant",
+                "Juli": "Juli"
             }            
         }
     },

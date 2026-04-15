@@ -223,6 +223,14 @@ const CV = () => {
         t(`Systementwickler`),
         t(`Oracle Apex Entwickler`)
       ]
+    },
+    {
+      from: `${t("Juli")} 2025`,
+      company: "technology&strategy Group",
+      titles: [
+        t(`Softwareentwickler`),
+        t(`Consultant`)
+      ]
     }
   ];
 
