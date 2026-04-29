@@ -3,14 +3,35 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: dark;
+  color: #f0eeff;
+  background-color: #080810;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Design tokens */
+  --color-base: #080810;
+  --color-surface: #0f0f1a;
+  --color-surface-2: #161628;
+  --color-accent: #6c63ff;
+  --color-accent-2: #00d4ff;
+  --color-accent-3: #ff2d6b;
+  --color-muted: #8888aa;
+  --color-text: #f0eeff;
+  --color-text-secondary: #a8a8c8;
+
+  /* Glow effects */
+  --glow-accent: 0 0 30px rgba(108, 99, 255, 0.5);
+  --glow-cyan: 0 0 30px rgba(0, 212, 255, 0.4);
+  --glow-pink: 0 0 30px rgba(255, 45, 107, 0.4);
+
+  /* Glass */
+  --glass-bg: rgba(15, 15, 26, 0.7);
+  --glass-border: rgba(108, 99, 255, 0.2);
+  --glass-blur: blur(16px);
 }
 
 a {

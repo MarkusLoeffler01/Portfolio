@@ -1,135 +1,325 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { styled } from '@mui/system';
-import CheckList from "@mui/icons-material/Checklist";
-import GlowingCard from '@components/GlowCard';
-import ReactLogo from "@assets/react.svg?react"
-import { useTranslation } from 'react-i18next';
+import { useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import ReactLogo from "@assets/react.svg?react";
 
-interface ProjectCardProps {
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+interface Project {
   title: string;
   description: string;
+  longDescription: string;
+  tags: string[];
+  color: string;
   icon: React.ReactNode;
-  technologies: React.ReactNode[];
-  deploymentLink: string;
-  githubLink: string;
+  githubLink?: string;
+  deploymentLink?: string;
+  status: "live" | "wip" | "planned";
 }
 
-const ProjectCard = ({ title, description, icon, technologies, deploymentLink, githubLink }: ProjectCardProps) => (
-  <GlowingCard size={300} description={description} deploymentLink={deploymentLink} githubLink={githubLink}>
-    <CardContent>
-      <CardTitle variant="h4">
-        {title}
-      </CardTitle>
-      
-      <IconWrapper>
-        {icon}
-      </IconWrapper>
+// ─── Project Data ─────────────────────────────────────────────────────────────
 
-      <TechnologySection>
-        <TechnologyLabel variant="subtitle1">
-          Built with
-        </TechnologyLabel>
-        <TechnologyIcons>
-          {technologies.map((tech, index) => (
-            <TechnologyIcon key={index}>
-              {tech}
-            </TechnologyIcon>
-          ))}
-        </TechnologyIcons>
-      </TechnologySection>
-    </CardContent>
-  </GlowingCard>
-);
-
-const CardTitle = styled(Typography)({
-  fontWeight: 600,
-  marginBottom: '0.5rem',
-  color: '#ffffff'
-});
-
-const TechnologySection = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  marginTop: 'auto'
-});
-
-const TechnologyLabel = styled(Typography)({
-  marginBottom: '0.5rem',
-  color: '#bdbdbd'
-});
-
-const TechnologyIcons = styled(Box)({
-  display: 'flex',
-  gap: '1rem',
-  alignItems: 'center'
-});
-
-const TechnologyIcon = styled(Box)({
-  width: '40px',
-  height: '40px'
-});
-
-const GridBox = styled(Box)(() => ({
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-    gap: '1rem',
-    padding: '1rem',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: 'center'
-}));
-
-const CardContent = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  height: '100%',
-  padding: '20px',
-  gap: '1rem'
-});
-
-const IconWrapper = styled(Box)({
-  margin: '1rem 0',
-  transition: 'transform 0.2s ease-in-out',
-  '&:hover': {
-    transform: 'scale(1.1)'
-  }
-});
-
-type Project = {
-  title: string;
-  description: string;
-  icon: React.ReactElement<SVGElement>;
-  technologies: React.ReactElement<SVGElement>[];
-  deploymentLink: string;
-  githubLink: string;
-} 
-
-const Projects = ({color: _}: {color: string}) => {
+const useProjects = (): Project[] => {
   const { t } = useTranslation();
-  const todoProjects: Project[] = [{
-    title: "ToDo App",
-    description: t("Eine moderne Todo Application, gebaut mit React, mit Echtzeit-Updates und lokaler Speicherung."),
-    icon: <CheckList sx={{ width: '64px', height: '64px', color: '#4CAF50' }} />,
-    technologies: [<ReactLogo width="40px" key="reactLogo" height="40px" />],
-    githubLink: "https://github.com/MarkusLoeffler01/portfolio-todo-react",
-    deploymentLink: "https://portfolio.m-loeffler.de/todo"
-  }];
+  return [
+    {
+      title: "Portfolio",
+      description: t("Dieses Portfolio – gebaut mit React, Three.js & Framer Motion."),
+      longDescription: t("Ein kreatives Portfolio mit 3D-Partikel-Hero, animiertem Lebenslauf, Fähigkeiten-Raster und Scroll-Abschnitten. Gebaut mit React 18, TypeScript, Vite, Tailwind, Framer Motion und React Three Fiber."),
+      tags: ["React", "Three.js", "Framer Motion", "TypeScript", "Tailwind"],
+      color: "#6c63ff",
+      icon: <ReactLogo width="48" height="48" />,
+      githubLink: "https://github.com/MarkusLoeffler01/Portfolio",
+      deploymentLink: "https://portfolio.m-loeffler.de",
+      status: "live" as const,
+    },
+    {
+      title: "ToDo App",
+      description: t("Eine moderne Todo Application, gebaut mit React, mit Echtzeit-Updates und lokaler Speicherung."),
+      longDescription: t("Eine aufgeräumte Aufgaben-App mit React. Echtzeit-Updates und lokale Speicherung."),
+      tags: ["React", "TypeScript", "Local Storage"],
+      color: "#00d4ff",
+      icon: <span style={{ fontSize: 48 }}>✅</span>,
+      githubLink: "https://github.com/MarkusLoeffler01/portfolio-todo-react",
+      deploymentLink: "https://portfolio.m-loeffler.de/todo",
+      status: "live" as const,
+    },
+    {
+      title: "API Backend",
+      description: t("RESTful Gästebuch-API mit Express, PostgreSQL & Pagination."),
+      longDescription: t("Eine Node.js + Express REST API für das Portfolio-Gästebuch. Kommentare, Pagination und CORS."),
+      tags: ["Node.js", "Express", "PostgreSQL", "REST"],
+      color: "#ff2d6b",
+      icon: <span style={{ fontSize: 48 }}>🔌</span>,
+      status: "live" as const,
+    },
+    {
+      title: "Coming Soon",
+      description: t("Nächstes Projekt in Arbeit – bleib dran."),
+      longDescription: t("Immer am Bauen. Schau bald wieder rein oder folge dem GitHub."),
+      tags: ["TBD"],
+      color: "#a8ff78",
+      icon: <span style={{ fontSize: 48 }}>🚀</span>,
+      status: "planned" as const,
+    },
+  ];
+};
+
+// ─── Status Badge ─────────────────────────────────────────────────────────────
+
+function StatusBadge({ status }: { status: Project["status"] }) {
+  const { t } = useTranslation();
+  const config = {
+    live:    { label: t("Live"),     color: "#a8ff78", bg: "rgba(168,255,120,0.1)" },
+    wip:     { label: t("In Arbeit"), color: "#ffd700", bg: "rgba(255,215,0,0.1)" },
+    planned: { label: t("Geplant"),  color: "#8888aa", bg: "rgba(136,136,170,0.1)" },
+  }[status];
 
   return (
-    <>
-        <Typography variant="h2" align="center" sx={{ color: '#ffffff' }}>
-          {t("Projekte")}
-        </Typography>
-        <GridBox>
-            {todoProjects.map((project, index) => (
-                <ProjectCard key={index} {...project} />
+    <span
+      className="text-xs px-2 py-0.5 rounded-full font-medium"
+      style={{ color: config.color, background: config.bg, border: `1px solid ${config.color}44` }}
+    >
+      ● {config.label}
+    </span>
+  );
+}
+
+// ─── Project Card ─────────────────────────────────────────────────────────────
+
+function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const { t } = useTranslation();
+  const [flipped, setFlipped] = useState(false);
+
+  return (
+    <motion.div
+      className="relative cursor-pointer"
+      style={{ height: 280, perspective: 1400 }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ delay: index * 0.1, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+      onClick={() => setFlipped((f) => !f)}
+    >
+      <motion.div
+        className="w-full h-full"
+        style={{ transformStyle: "preserve-3d" }}
+        animate={{ rotateY: flipped ? 180 : 0 }}
+        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+      >
+        {/* Front — horizontal layout: icon left, content right */}
+        <div
+          className="absolute inset-0 glass rounded-3xl border-glow overflow-hidden"
+          style={{
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            borderLeft: `4px solid ${project.color}`,
+          }}
+        >
+          {/* Glow blob top-right */}
+          <div
+            className="absolute top-0 right-0 w-48 h-48 rounded-full blur-3xl opacity-10 pointer-events-none"
+            style={{ background: project.color }}
+          />
+
+          <div className="relative z-10 flex h-full gap-5 p-6">
+            {/* Left: icon + status */}
+            <div className="flex flex-col items-center justify-center gap-3 flex-shrink-0 w-20">
+              <div style={{ filter: `drop-shadow(0 0 14px ${project.color}99)` }}>
+                {project.icon}
+              </div>
+              <StatusBadge status={project.status} />
+            </div>
+
+            {/* Divider */}
+            <div className="w-px self-stretch" style={{ background: `${project.color}30` }} />
+
+            {/* Right: title, description, tags, hint */}
+            <div className="flex flex-col justify-center gap-2 min-w-0 flex-1">
+              <h3 className="text-xl font-bold leading-tight" style={{ color: "var(--color-text)" }}>
+                {project.title}
+              </h3>
+              <p className="text-sm leading-snug line-clamp-2" style={{ color: "var(--color-text-secondary)" }}>
+                {project.description}
+              </p>
+              <div className="flex flex-wrap gap-1.5 mt-1">
+                {project.tags.slice(0, 4).map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-xs px-2.5 py-1 rounded-full whitespace-nowrap font-medium"
+                    style={{ background: `${project.color}18`, border: `1px solid ${project.color}44`, color: project.color }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+                {project.tags.length > 4 && (
+                  <span
+                    className="text-xs px-2.5 py-1 rounded-full whitespace-nowrap font-medium"
+                    style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)", color: "var(--color-muted)" }}
+                  >
+                    +{project.tags.length - 4}
+                  </span>
+                )}
+              </div>
+              <p className="text-xs" style={{ color: "var(--color-muted)" }}>
+                {t("Zum Umdrehen klicken →")}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Back */}
+        <div
+          className="absolute inset-0 glass rounded-3xl border-glow flex flex-col justify-between p-6 overflow-hidden"
+          style={{
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            transform: "rotateY(180deg)",
+            borderRight: `4px solid ${project.color}`,
+          }}
+        >
+          {/* Glow blob bottom-left */}
+          <div
+            className="absolute bottom-0 left-0 w-40 h-40 rounded-full blur-3xl opacity-10 pointer-events-none"
+            style={{ background: project.color }}
+          />
+          <div className="relative z-10">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="text-2xl" style={{ filter: `drop-shadow(0 0 8px ${project.color}88)` }}>
+                {project.icon}
+              </div>
+              <h3 className="text-lg font-bold" style={{ color: project.color }}>
+                {project.title}
+              </h3>
+            </div>
+            <p className="text-sm leading-relaxed line-clamp-4" style={{ color: "var(--color-text-secondary)" }}>
+              {project.longDescription}
+            </p>
+          </div>
+
+          <div className="relative z-10 flex gap-3 mt-4">
+            {project.githubLink && (
+              <motion.a
+                href={project.githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="flex-1 py-2 rounded-xl text-sm font-semibold text-center"
+                style={{
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  color: "var(--color-text)",
+                }}
+                whileHover={{ scale: 1.04, background: "rgba(255,255,255,0.12)" }}
+              >
+                GitHub →
+              </motion.a>
+            )}
+            {project.deploymentLink && (
+              <motion.a
+                href={project.deploymentLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="flex-1 py-2 rounded-xl text-sm font-semibold text-center"
+                style={{
+                  background: `${project.color}22`,
+                  border: `1px solid ${project.color}44`,
+                  color: project.color,
+                }}
+                whileHover={{ scale: 1.04, background: `${project.color}33` }}
+              >
+                Live ↗
+              </motion.a>
+            )}
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// ─── Projects ─────────────────────────────────────────────────────────────────
+
+const Projects = ({ color: _ }: { color?: string }) => {
+  const { t } = useTranslation();
+  const [filter, setFilter] = useState<Project["status"] | "all">("all");
+  const projects = useProjects();
+
+  const filtered = filter === "all" ? projects : projects.filter((p) => p.status === filter);
+
+  return (
+    <section
+      id="projects"
+      className="relative w-full"
+      style={{ background: "var(--color-base)", padding: "6rem 10vw" }}
+    >
+      <div className="w-full">
+        {/* Header */}
+        <div className="text-center mb-10">
+          <span
+            className="inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-widest mb-4"
+            style={{
+              background: "rgba(255,45,107,0.12)",
+              border: "1px solid rgba(255,45,107,0.3)",
+              color: "var(--color-accent-3)",
+            }}
+          >
+            Portfolio
+          </span>
+          <h2 className="text-4xl sm:text-5xl font-bold" style={{ color: "var(--color-text)" }}>
+            {t("Projekte")}
+          </h2>
+          <p className="mt-3 text-base" style={{ color: "var(--color-muted)" }}>
+            {t("Klick auf eine Karte für mehr Details")}
+          </p>
+        </div>
+
+        {/* Filter buttons */}
+        <div className="flex gap-2 justify-center mb-8 flex-wrap">
+          {(["all", "live", "wip", "planned"] as const).map((status) => {
+            const statusLabels: Record<typeof status, string> = {
+              all:     t("Alle"),
+              live:    t("Live"),
+              wip:     t("In Arbeit"),
+              planned: t("Geplant"),
+            };
+            return (
+              <motion.button
+                key={status}
+                onClick={() => setFilter(status)}
+                className="px-4 py-1.5 rounded-full text-sm font-medium capitalize"
+                style={{
+                  background: filter === status ? "rgba(255,45,107,0.15)" : "transparent",
+                  border: filter === status ? "1px solid rgba(255,45,107,0.4)" : "1px solid rgba(255,255,255,0.08)",
+                  color: filter === status ? "var(--color-accent-3)" : "var(--color-muted)",
+                }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.96 }}
+              >
+                {statusLabels[status]}
+              </motion.button>
+            );
+          })}
+        </div>
+
+        {/* Grid */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={filter}
+            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {filtered.map((project, i) => (
+              <ProjectCard key={project.title} project={project} index={i} />
             ))}
-        </GridBox>
-    </>
-    
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </section>
   );
 };
 

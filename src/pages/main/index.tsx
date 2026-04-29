@@ -1,22 +1,30 @@
-import SkillSlider from "./SkillSlider";
-import GuestBook from "./GuestBook";
+import { lazy, Suspense } from "react";
+import Navbar from "@components/Navbar";
 import Profile from "./Profile";
-import FullPage from "@components/fullpage";
-import Footer from "./footer";
-import Flow from "./Flow";
+import SkillSlider from "./SkillSlider";
 import Projects from "./projects";
+import GuestBook from "./GuestBook";
+import Flow from "./Flow";
+import Footer from "./footer";
+
+// Lazy-load the 3D hero to keep initial bundle small
+const Hero = lazy(() => import("./Hero"));
 
 const MainPage = () => {
     return (
-        <FullPage>
-            <Profile className="w-[95%]" color="#252525" />
-            <SkillSlider color="#3c31dd" />
-            <Projects color="rgb(10, 10, 10)" />
-            <GuestBook className="flex flex-row justify-center top-[-5vh] relative" color="#252525" viewHeight={150} />
-            <Flow className="flex flex-col justify-center top-[-5vh] relative w-full text-center items-center mb-[0%]" color="#030303" viewHeight={363} />
-            <Footer color="#FF2942" height="auto" viewHeight={50} noWave  />
-        </FullPage>
-    )
-}
+        <div className="relative w-full" style={{ background: "var(--color-base)" }}>
+            <Navbar />
+            <Suspense fallback={<div className="w-full min-h-screen" style={{ background: "var(--color-base)" }} />}>
+                <Hero />
+            </Suspense>
+            <Profile />
+            <SkillSlider />
+            <Projects />
+            <GuestBook className="flex flex-row justify-center" color="#0f0f1a" viewHeight={150} />
+            <Flow className="flex flex-col justify-center w-full text-center items-center" color="#080810" viewHeight={363} />
+            <Footer />
+        </div>
+    );
+};
 
 export default MainPage;

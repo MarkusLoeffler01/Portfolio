@@ -29,6 +29,17 @@ module.exports = {
       }
     ],
     'react/react-in-jsx-scope': 'off',
+    // @react-three/fiber uses custom JSX elements (mesh, torusGeometry, etc.) and their props
+    // (position, args, emissive, intensity, wireframe…). These are not standard DOM properties.
+    'react/no-unknown-property': ['error', {
+      ignore: [
+        'position', 'rotation', 'scale', 'args', 'ref',
+        'emissive', 'emissiveIntensity', 'wireframe', 'metalness', 'roughness',
+        'intensity', 'color', 'map', 'attach', 'object', 'geometry', 'material',
+        'transparent', 'opacity', 'sizeAttenuation', 'depthWrite', 'frustumCulled',
+        'side', 'fog', 'castShadow', 'receiveShadow',
+      ]
+    }],
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
