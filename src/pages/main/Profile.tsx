@@ -89,12 +89,14 @@ function TimelineEntry({
         animate={inView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 0.6, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        <div
+        <motion.div
           className="glass rounded-2xl p-4 border-glow relative overflow-hidden"
           style={{
             borderLeft: isRight ? undefined : `3px solid ${accentColor}`,
             borderRight: isRight ? `3px solid ${accentColor}` : undefined,
           }}
+          whileHover={{ scale: 1.02, boxShadow: `0 0 28px ${accentColor}33` }}
+          transition={{ type: "spring", stiffness: 300, damping: 22 }}
         >
           <p className="text-xs font-mono mb-1" style={{ color: accentColor }}>
             {to ? `${from} → ${to}` : `${from} →`}
@@ -124,18 +126,28 @@ function TimelineEntry({
               ))}
             </div>
           )}
-        </div>
+        </motion.div>
       </motion.div>
 
       {/* Center dot */}
       <div className="absolute left-1/2 top-4 -translate-x-1/2 z-10">
-        <motion.div
-          className="w-4 h-4 rounded-full border-2"
-          style={{ background: accentColor, borderColor: "var(--color-base)" }}
-          initial={{ scale: 0 }}
-          animate={inView ? { scale: 1 } : {}}
-          transition={{ duration: 0.4, delay: index * 0.1 + 0.2 }}
-        />
+        <div className="relative w-4 h-4">
+          {inView && (
+            <motion.div
+              className="absolute inset-0 rounded-full"
+              style={{ background: accentColor }}
+              animate={{ scale: [1, 2.8, 1], opacity: [0.5, 0, 0.5] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: index * 0.15 }}
+            />
+          )}
+          <motion.div
+            className="w-4 h-4 rounded-full border-2 relative z-10"
+            style={{ background: accentColor, borderColor: "var(--color-base)" }}
+            initial={{ scale: 0 }}
+            animate={inView ? { scale: 1 } : {}}
+            transition={{ duration: 0.4, delay: index * 0.1 + 0.2 }}
+          />
+        </div>
       </div>
     </div>
   );
@@ -272,11 +284,18 @@ function PersonalData() {
         </h3>
         <div className="space-y-2">
           {data.map(({ icon, label, value }, i) => (
-            <div key={i} className="flex items-center gap-3 text-sm">
+            <motion.div
+              key={i}
+              className="flex items-center gap-3 text-sm"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.09, duration: 0.4, ease: "easeOut" }}
+            >
               <span className="w-6 text-center">{icon}</span>
               <span className="font-medium w-24 shrink-0" style={{ color: "var(--color-muted)" }}>{label}</span>
               <span style={{ color: "var(--color-text)" }}>{value}</span>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -387,9 +406,27 @@ const Profile = ({
   return (
     <section
       id="about"
-      className="relative w-full section-pad"
+      className="relative w-full section-pad overflow-hidden"
       style={{ background: "var(--color-surface)" }}
     >
+      <motion.div
+        className="absolute -top-10 -left-24 w-[32rem] h-[32rem] rounded-full blur-3xl pointer-events-none"
+        style={{ background: "rgba(108,99,255,0.06)" }}
+        animate={{ y: [0, -40, 0], x: [0, 20, 0] }}
+        transition={{ duration: 13, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute bottom-32 -right-24 w-[28rem] h-[28rem] rounded-full blur-3xl pointer-events-none"
+        style={{ background: "rgba(0,212,255,0.05)" }}
+        animate={{ y: [0, 35, 0], x: [0, -25, 0] }}
+        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+      />
+      <motion.div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl pointer-events-none"
+        style={{ background: "rgba(255,45,107,0.04)" }}
+        animate={{ scale: [1, 1.35, 1] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 6 }}
+      />
       <div className="relative z-10 max-w-6xl mx-auto">
         <RevealOnScroll>
           <div className="text-center mb-12">
