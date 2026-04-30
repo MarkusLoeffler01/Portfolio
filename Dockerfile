@@ -5,13 +5,13 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 
 # Install TypeScript globally
-RUN npm i -g typescript
+RUN npm i -g typescript pnpm
 
-# Copy only package.json and package-lock.json first to leverage Docker cache
-COPY package*.json ./
+# Copy only package files first to leverage Docker cache
+COPY package.json pnpm-lock.yaml ./
 
 # Install dependencies
-RUN npm i
+RUN pnpm install --frozen-lockfile
 
 # Copy the rest of the application code
 COPY . .

@@ -1,7 +1,7 @@
 import React from "react";
 import NeonBox, { NewLine } from "@/components/NeonBox";
 import Typography from "@mui/material/Typography";
-import useTheme from "@mui/material/styles/useTheme";
+import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTranslation } from "react-i18next";
 

@@ -1,13 +1,10 @@
 import { useRef, useEffect, Suspense, useMemo } from "react";
-import { Canvas, useFrame, extend } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { age } from "@/ts/calc";
 import * as THREE from "three";
-
-// Extend THREE objects into R3F's JSX catalogue
-extend(THREE);
 
 // ─── Particle Field ──────────────────────────────────────────────────────────
 

@@ -1,7 +1,7 @@
 // src/components/GlowingCard.tsx
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import Box from '@mui/material/Box';
-import { styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GitHubIcon from '@mui/icons-material/GitHub';
 

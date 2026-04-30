@@ -1,8 +1,7 @@
 import { forwardRef, useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import styled from "@mui/material/styles/styled";
+import { styled, useTheme } from "@mui/material/styles";
 import "@css/NeonBox.css";
-import useTheme from "@mui/material/styles/useTheme";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 interface NeonBoxProps {
@@ -79,7 +78,7 @@ export default NeonBox;
 
 
 interface LineProps {
-  boxRefs: React.RefObject<HTMLDivElement>[];
+  boxRefs: React.RefObject<HTMLDivElement | null>[];
 }
 
 export const NewLine = ({ boxRefs }: LineProps) => {
@@ -176,4 +175,3 @@ export const NewLine = ({ boxRefs }: LineProps) => {
     </svg>
   );
 };
-

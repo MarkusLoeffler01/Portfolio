@@ -1,6 +1,7 @@
-import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import type { SxProps, Theme } from '@mui/material/styles';
+import type { CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import German from "@assets/flags/de.svg?react";
 import English from "@assets/flags/gb.svg?react";
@@ -14,23 +15,35 @@ const float = keyframes`
 
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
+  const containerStyle: CSSProperties = {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    zIndex: 1000,
+    display: 'flex',
+    gap: '16px',
+    background: 'rgba(26, 26, 26, 0.8)',
+    backdropFilter: 'blur(8px)',
+    padding: '8px',
+    borderRadius: '12px',
+    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+  };
+  const getButtonSx = (language: 'en' | 'de'): SxProps<Theme> => ({
+    width: 48,
+    height: 48,
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      animation: `${float} 2s ease-in-out infinite`,
+      transform: 'scale(1.1)',
+    },
+    filter:
+      i18n.language === language
+        ? 'drop-shadow(0 0 8px rgba(100,108,255,0.5))'
+        : 'grayscale(0.5)',
+  });
 
   return (
-    <Box
-      sx={{
-        position: 'absolute',
-        top: 10,
-        right: 10,
-        zIndex: 1000,
-        display: 'flex',
-        gap: 2,
-        background: 'rgba(26, 26, 26, 0.8)',
-        backdropFilter: 'blur(8px)',
-        padding: '8px',
-        borderRadius: '12px',
-        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-      }}
-    >
+    <div style={containerStyle}>
       <Tooltip 
         title="English" 
         arrow 
@@ -39,18 +52,7 @@ const LanguageSwitcher = () => {
       >
         <IconButton 
           onClick={() => i18n.changeLanguage('en')}
-          sx={{ 
-            width: 48,
-            height: 48,
-            transition: 'all 0.3s ease',
-            '&:hover': {
-              animation: `${float} 2s ease-in-out infinite`,
-              transform: 'scale(1.1)',
-            },
-            filter: i18n.language === 'en' 
-              ? 'drop-shadow(0 0 8px rgba(100,108,255,0.5))' 
-              : 'grayscale(0.5)',
-          }}
+          sx={getButtonSx('en')}
         >
           <English />
         </IconButton>
@@ -64,23 +66,12 @@ const LanguageSwitcher = () => {
       >
         <IconButton
           onClick={() => i18n.changeLanguage('de')}
-          sx={{ 
-            width: 48,
-            height: 48,
-            transition: 'all 0.3s ease',
-            '&:hover': {
-              animation: `${float} 2s ease-in-out infinite`,
-              transform: 'scale(1.1)',
-            },
-            filter: i18n.language === 'de' 
-              ? 'drop-shadow(0 0 8px rgba(100,108,255,0.5))' 
-              : 'grayscale(0.5)',
-          }}
+          sx={getButtonSx('de')}
         >
           <German />
         </IconButton>
       </Tooltip>
-    </Box>
+    </div>
   );
 };
 

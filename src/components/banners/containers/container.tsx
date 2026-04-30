@@ -1,8 +1,8 @@
 import Paper from '@mui/material/Paper';
 // We can import SxProps safely because types are stripped in the build process
-import type { SxProps } from "@mui/material/styles";
-import { styled } from '@mui/system';
+import { styled, type SxProps } from "@mui/material/styles";
 import Typography from '@mui/material/Typography';
+import type { ReactNode } from 'react';
 import { skillType } from '@/interfaces/skillType';
 import { useTranslation } from 'react-i18next';
 
@@ -22,21 +22,28 @@ export const BannerContainer = styled(Paper)(({ theme }) => ({
     borderRadius: '15px',
   }));
   
-export const Logo = styled('img')(({ theme, width, height }) => ({
+type LogoProps = {
+  width?: number | string;
+  height?: number | string;
+};
+
+export const Logo = styled('img', {
+  shouldForwardProp: (prop) => prop !== 'width' && prop !== 'height',
+})<LogoProps>(({ theme, width, height }) => ({
     width: width || '200px',
     height: height || '200px',
     [theme.breakpoints.down('sm')]: {
       width: '150px',
-      height: '150x',
+      height: '150px',
     },
 }));
 
 
-const NewBanner = ({logo, title, subtitle, since, type, dark = false, spin = false, sx, logoSx}: {logo: string | JSX.Element, title: string, subtitle?: string, since?: string, type: skillType; dark?: boolean, spin?: boolean, sx?: SxProps, logoSx?: SxProps}) => {
+const NewBanner = ({logo, title, subtitle, since, type, dark = false, spin = false, sx, logoSx}: {logo: string | ReactNode, title: string, subtitle?: string, since?: string, type: skillType; dark?: boolean, spin?: boolean, sx?: SxProps, logoSx?: SxProps}) => {
   const { t } = useTranslation();
   return (
     <BannerContainer className={type} sx={{...sx, color: dark ? "white" : "black", height: "110%"}}>
-      {typeof logo === "string" ? <Logo src={logo} sx={logoSx} className={[title.toString().toLocaleLowerCase(), "logo", spin && "spin"].join(" ")} alt="Logo" /> : logo}
+      {typeof logo === "string" ? <Logo src={logo} sx={logoSx} className={[title.toString().toLocaleLowerCase(), "logo", spin && "spin"].filter(Boolean).join(" ")} alt="Logo" /> : logo}
       {title && <Typography variant="h4" align="center" gutterBottom>
         {title}
       </Typography>}

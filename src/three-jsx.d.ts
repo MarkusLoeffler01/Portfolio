@@ -1,11 +1,10 @@
 import type { ThreeElements } from "@react-three/fiber";
 
-declare global {
+declare module "react" {
   namespace JSX {
-    // Merges Three.js element types (mesh, torusGeometry, ambientLight, etc.)
-    // into the global JSX.IntrinsicElements so R3F JSX is valid in all .tsx files.
+    // Merge R3F JSX elements into React's JSX namespace without replacing
+    // the built-in HTML/SVG intrinsic elements from React 19.
     interface IntrinsicElements extends ThreeElements {}
   }
 }
-
 
