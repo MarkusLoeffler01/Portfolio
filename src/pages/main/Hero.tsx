@@ -107,25 +107,30 @@ interface IconBoxProps {
   label: string;
   speed?: number;
   phase?: number;
+  spinIcon?: boolean;
 }
 
 const BOX_SIZE  = 1.55;
 const ICON_SIZE = BOX_SIZE * 0.65;  // icon plane: 65 % of face → comfortable margin
 
-function FloatingIconBox({ position, color, textureUrl, label, speed = 1, phase = 0 }: IconBoxProps) {
+function FloatingIconBox({ position, color, textureUrl, label, speed = 1, phase = 0, spinIcon = false }: IconBoxProps) {
   const rotRef   = useRef<THREE.Group>(null!);
   const groupRef = useRef<THREE.Group>(null!);
+  const iconRef  = useRef<THREE.Mesh>(null!);
   const baseY    = position[1];
   const texture  = useTexture(textureUrl);
 
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime() * speed + phase;
+  useFrame((_, delta) => {
+    const t = performance.now() / 1000 * speed + phase;
     if (rotRef.current) {
       rotRef.current.rotation.y = t * 0.38;
       rotRef.current.rotation.x = t * 0.22;
     }
     if (groupRef.current) {
       groupRef.current.position.y = baseY + Math.sin(t * 0.5) * 0.28;
+    }
+    if (spinIcon && iconRef.current) {
+      iconRef.current.rotation.z += delta * 0.9;
     }
   });
 
@@ -167,7 +172,7 @@ function FloatingIconBox({ position, color, textureUrl, label, speed = 1, phase 
         </mesh>
 
         {/* Icon plane — sits on +Z face, transparent bg → only logo silhouette visible */}
-        <mesh position={[0, 0, BOX_SIZE / 2 + 0.015]}>
+        <mesh ref={iconRef} position={[0, 0, BOX_SIZE / 2 + 0.015]}>
           <planeGeometry args={[ICON_SIZE, ICON_SIZE]} />
           <meshStandardMaterial
             map={texture}
@@ -237,6 +242,7 @@ function Scene() {
           label="React"
           speed={0.85}
           phase={1.3}
+          spinIcon
         />
         <FloatingIconBox
           position={[5.0, -2.8, -5]}
