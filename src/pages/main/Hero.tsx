@@ -1,6 +1,11 @@
 import { useRef, useEffect, Suspense, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Points, PointMaterial } from "@react-three/drei";
+import { Points, PointMaterial, Html, Edges, useTexture } from "@react-three/drei";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import githubIconUrl from "@assets/github.svg?url";
+import reactIconUrl from "@assets/react.svg?url";
+import dockerIconUrl from "@assets/docker.svg?url";
+import nextjsIconUrl from "@assets/nextjs.svg?url";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { age } from "@/ts/calc";
@@ -93,6 +98,117 @@ function FloatingIcosahedron() {
   );
 }
 
+// ─── Floating Icon Box ───────────────────────────────────────────────────────
+
+interface IconBoxProps {
+  position: [number, number, number];
+  color: string;
+  textureUrl: string;
+  label: string;
+  speed?: number;
+  phase?: number;
+}
+
+const BOX_SIZE  = 1.55;
+const ICON_SIZE = BOX_SIZE * 0.65;  // icon plane: 65 % of face → comfortable margin
+
+function FloatingIconBox({ position, color, textureUrl, label, speed = 1, phase = 0 }: IconBoxProps) {
+  const rotRef   = useRef<THREE.Group>(null!);
+  const groupRef = useRef<THREE.Group>(null!);
+  const baseY    = position[1];
+  const texture  = useTexture(textureUrl);
+
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime() * speed + phase;
+    if (rotRef.current) {
+      rotRef.current.rotation.y = t * 0.38;
+      rotRef.current.rotation.x = t * 0.22;
+    }
+    if (groupRef.current) {
+      groupRef.current.position.y = baseY + Math.sin(t * 0.5) * 0.28;
+    }
+  });
+
+  return (
+    <group ref={groupRef} position={[position[0], position[1], position[2]]}>
+
+      {/* Soft glow sphere — static, does not rotate */}
+      <mesh>
+        <sphereGeometry args={[BOX_SIZE * 0.82, 10, 10]} />
+        <meshStandardMaterial
+          color={color}
+          emissive={color}
+          emissiveIntensity={0.9}
+          transparent
+          opacity={0.06}
+          depthWrite={false}
+        />
+      </mesh>
+
+      {/* ── Rotating group: cube + raised slab ── */}
+      <group ref={rotRef}>
+
+        {/* Base cube — plain dark, no texture */}
+        <mesh>
+          <boxGeometry args={[BOX_SIZE, BOX_SIZE, BOX_SIZE]} />
+          <meshStandardMaterial
+            color="#080c14"
+            emissive={color}
+            emissiveIntensity={0.08}
+            roughness={0.45}
+            metalness={0.35}
+          />
+          <Edges
+            scale={1}
+            threshold={15}
+            color={color as unknown as THREE.ColorRepresentation}
+            linewidth={5}
+          />
+        </mesh>
+
+        {/* Icon plane — sits on +Z face, transparent bg → only logo silhouette visible */}
+        <mesh position={[0, 0, BOX_SIZE / 2 + 0.015]}>
+          <planeGeometry args={[ICON_SIZE, ICON_SIZE]} />
+          <meshStandardMaterial
+            map={texture}
+            emissiveMap={texture}
+            emissive={color}
+            emissiveIntensity={4.0}
+            transparent
+            alphaTest={0.05}
+            roughness={0.15}
+            metalness={0.2}
+            depthWrite={false}
+          />
+        </mesh>
+
+      </group>
+
+      {/* Neon label — camera-facing, below the cube */}
+      <Html
+        position={[0, -(BOX_SIZE / 2 + 0.38), 0]}
+        center
+        distanceFactor={4.5}
+        zIndexRange={[0, 5]}
+      >
+        <span style={{
+          pointerEvents: "none",
+          userSelect: "none",
+          color: color,
+          fontSize: 11,
+          fontWeight: 800,
+          fontFamily: "system-ui, sans-serif",
+          textShadow: `0 0 8px ${color}, 0 0 18px ${color}`,
+          whiteSpace: "nowrap",
+          letterSpacing: "0.1em",
+          textTransform: "uppercase",
+        }}>{label}</span>
+      </Html>
+
+    </group>
+  );
+}
+
 // ─── 3D Scene ─────────────────────────────────────────────────────────────────
 
 function Scene() {
@@ -105,7 +221,48 @@ function Scene() {
         <ParticleField />
         <FloatingTorus />
         <FloatingIcosahedron />
+        {/* Tech icon boxes at the four corners */}
+        <FloatingIconBox
+          position={[-5.0, 2.8, -5]}
+          color="#a8ff78"
+          textureUrl={githubIconUrl}
+          label="GitHub"
+          speed={0.7}
+          phase={0}
+        />
+        <FloatingIconBox
+          position={[5.0, 2.8, -5]}
+          color="#61dafb"
+          textureUrl={reactIconUrl}
+          label="React"
+          speed={0.85}
+          phase={1.3}
+        />
+        <FloatingIconBox
+          position={[5.0, -2.8, -5]}
+          color="#e2e2e2"
+          textureUrl={nextjsIconUrl}
+          label="Next.js"
+          speed={0.78}
+          phase={2.6}
+        />
+        <FloatingIconBox
+          position={[-5.0, -2.8, -5]}
+          color="#00acf0"
+          textureUrl={dockerIconUrl}
+          label="Docker"
+          speed={0.72}
+          phase={3.9}
+        />
       </Suspense>
+      <EffectComposer multisampling={0}>
+        <Bloom
+          luminanceThreshold={0.35}
+          luminanceSmoothing={0.6}
+          intensity={1.8}
+          mipmapBlur
+        />
+      </EffectComposer>
     </>
   );
 }
