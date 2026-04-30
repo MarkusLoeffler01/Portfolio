@@ -1,5 +1,5 @@
 import Markus from "@assets/image.png";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { age } from "@/ts/calc";
@@ -78,24 +78,35 @@ function TimelineEntry({
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
+  // Scroll-driven scale: card peaks at 1.04× when centred in viewport
+  const cardRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: cardProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "end start"],
+  });
+  const cardScale = useTransform(cardProgress, [0, 0.4, 0.6, 1], [0.92, 1.04, 1.04, 0.92]);
+  const cardOpacity = useTransform(cardProgress, [0, 0.25, 0.75, 1], [0.55, 1, 1, 0.55]);
+
   return (
     <div
       ref={ref}
-      className={`relative flex w-full mb-8 ${isRight ? "flex-row-reverse" : "flex-row"}`}
+      className={`relative flex w-full mb-8 sm:${isRight ? "flex-row-reverse" : "flex-row"} flex-col`}
     >
       <motion.div
-        className={`w-5/12 ${isRight ? "ml-auto pr-0 pl-4 text-right" : "mr-auto pl-0 pr-4 text-left"}`}
+        className={`w-full sm:w-5/12 ${isRight ? "sm:ml-auto sm:pr-0 sm:pl-4 sm:text-right" : "sm:mr-auto sm:pl-0 sm:pr-4"} text-left`}
         initial={{ opacity: 0, x: isRight ? 50 : -50 }}
         animate={inView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 0.6, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <motion.div
+          ref={cardRef}
           className="glass rounded-2xl p-4 border-glow relative overflow-hidden"
           style={{
-            borderLeft: isRight ? undefined : `3px solid ${accentColor}`,
-            borderRight: isRight ? `3px solid ${accentColor}` : undefined,
+            borderLeft: `3px solid ${accentColor}`,
+            scale: cardScale,
+            opacity: cardOpacity,
           }}
-          whileHover={{ scale: 1.02, boxShadow: `0 0 28px ${accentColor}33` }}
+          whileHover={{ scale: 1.06, boxShadow: `0 0 36px ${accentColor}55` }}
           transition={{ type: "spring", stiffness: 300, damping: 22 }}
         >
           <p className="text-xs font-mono mb-1" style={{ color: accentColor }}>
@@ -129,8 +140,8 @@ function TimelineEntry({
         </motion.div>
       </motion.div>
 
-      {/* Center dot */}
-      <div className="absolute left-1/2 top-4 -translate-x-1/2 z-10">
+      {/* Center dot — hidden on mobile */}
+      <div className="hidden sm:block absolute left-1/2 top-4 -translate-x-1/2 z-10">
         <div className="relative w-4 h-4">
           {inView && (
             <motion.div
@@ -159,18 +170,56 @@ function Timeline({ title, entries }: {
   title: string;
   entries: Omit<TimelineEntryProps, "isRight" | "index">[];
 }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Follower dot: tracks scroll progress through the whole timeline block
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end center"],
+  });
+  // Map progress 0→1 to "0%"→"100%" along the line
+  const followerY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
   return (
     <div className="mb-12">
       <h3 className="text-lg font-bold mb-6 text-center" style={{ color: "var(--color-accent-2)" }}>
         {title}
       </h3>
-      <div className="relative">
+      <div className="relative" ref={containerRef}>
+        {/* Static gradient line — hidden on mobile */}
         <div
-          className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
+          className="hidden sm:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2"
           style={{
             background: "linear-gradient(to bottom, var(--color-accent), var(--color-accent-2), var(--color-accent-3))",
           }}
         />
+        {/* Follower dot that slides down the line — hidden on mobile */}
+        <motion.div
+          className="hidden sm:block absolute left-1/2 z-30 pointer-events-none"
+          style={{
+            top: followerY,
+            x: "-50%",
+            y: "-50%",
+            background: "transparent",
+            filter: "drop-shadow(0 0 8px var(--color-accent-2))",
+          }}
+        >
+          {/* outer pulse ring */}
+          <motion.div
+            className="absolute inset-0 rounded-full"
+            style={{ background: "var(--color-accent)", margin: "-6px" }}
+            animate={{ scale: [1, 2.5, 1], opacity: [0.6, 0, 0.6] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          />
+          {/* core dot */}
+          <div
+            className="w-4 h-4 rounded-full border-2"
+            style={{
+              background: "var(--color-accent-2)",
+              borderColor: "var(--color-base)",
+            }}
+          />
+        </motion.div>
         {entries.map((entry, i) => (
           <TimelineEntry key={i} {...entry} isRight={i % 2 === 1} index={i} />
         ))}
@@ -230,16 +279,60 @@ function BioCard() {
             <p className="text-sm sm:text-base leading-relaxed" style={{ color: "var(--color-text-secondary)" }}>
               {t("Ich nutze privat ausschließlich Linux für meine Projekte und bin ein großer Verfechter von Open-Source-Software.")}
             </p>
-            <div className="flex items-center gap-2 mt-4 flex-wrap">
-              <span className="text-sm" style={{ color: "var(--color-muted)" }}>
-                {t("Das GitHub-Repository finden Sie hier")}
-              </span>
-              <img
-                alt="GitHub Repository"
-                className="cursor-pointer hover:opacity-80 transition-opacity"
-                onClick={() => window.open("https://github.com/MarkusLoeffler01/Portfolio", "_blank")?.focus()}
-                src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"
-              />
+            <div className="flex items-center gap-3 mt-5 flex-wrap">
+              <motion.a
+                href="https://github.com/MarkusLoeffler01/Portfolio"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative group flex items-center gap-2.5 px-5 py-2.5 rounded-2xl font-semibold text-sm overflow-hidden select-none"
+                style={{
+                  background: "linear-gradient(135deg, #161622 0%, #1e1e30 100%)",
+                  border: "1px solid rgba(108,99,255,0.35)",
+                  color: "#f0eeff",
+                  boxShadow: "0 0 0 0 rgba(108,99,255,0)",
+                  textDecoration: "none",
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 0 28px rgba(108,99,255,0.55), 0 0 60px rgba(108,99,255,0.2)",
+                  borderColor: "rgba(108,99,255,0.8)",
+                }}
+                whileTap={{ scale: 0.96 }}
+                transition={{ type: "spring", stiffness: 340, damping: 22 }}
+              >
+                {/* Animated shimmer sweep */}
+                <motion.span
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background: "linear-gradient(105deg, transparent 35%, rgba(108,99,255,0.18) 50%, transparent 65%)",
+                    backgroundSize: "200% 100%",
+                  }}
+                  animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
+                  transition={{ duration: 2.6, repeat: Infinity, ease: "linear", repeatDelay: 1 }}
+                />
+                {/* GitHub icon (inline SVG so no extra dep) */}
+                <motion.svg
+                  viewBox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="currentColor"
+                  animate={{ rotate: [0, 8, -8, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
+                >
+                  <path d="M12 0C5.37 0 0 5.373 0 12c0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23A11.51 11.51 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.297-1.23 3.297-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.298 24 12c0-6.627-5.373-12-12-12z" />
+                </motion.svg>
+                <span className="relative z-10 tracking-wide">View on GitHub</span>
+                {/* Arrow that slides in on hover */}
+                <motion.span
+                  className="relative z-10 inline-block"
+                  initial={{ x: -4, opacity: 0 }}
+                  whileHover={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                  style={{ color: "var(--color-accent)" }}
+                >
+                  →
+                </motion.span>
+              </motion.a>
             </div>
           </div>
         </div>
@@ -338,7 +431,7 @@ function CVTimelines() {
       title: `${t("Grundschule")} Dettingen`,
       accentColor: "var(--color-accent)",
     },
-  ];
+  ].reverse();
 
   const jobEntries: Omit<TimelineEntryProps, "isRight" | "index">[] = [
     {
@@ -346,7 +439,7 @@ function CVTimelines() {
       to: `${t("Juni")} 2022`,
       title: `Putzmeister ${t("Gruppe")}`,
       subtitle: t("Ausbildung zum Fachinformatiker Anwendungsentwicklung"),
-      tags: ["Apprenticeship", "C#", "SAP"],
+      tags: ["Apprenticeship", "JavaScript", "SAP"],
       accentColor: "var(--color-accent)",
     },
     {
@@ -354,7 +447,7 @@ function CVTimelines() {
       to: `${t("Juni")} 2024`,
       title: "netcare Business Solutions GmbH",
       subtitle: "Dev-Ops · Full-Stack · QA · Infrastructure",
-      tags: ["React", "Docker", "Jenkins", "PostgreSQL"],
+      tags: ["React", "TypeScript", "Vue.js", "Docker", "Jenkins", "PostgreSQL"],
       accentColor: "var(--color-accent-2)",
     },
     {
@@ -362,14 +455,14 @@ function CVTimelines() {
       to: `${t("Januar")} 2025`,
       title: "merlin.zwo GmbH",
       subtitle: `${t("Systementwickler")} · ${t("Oracle Apex Entwickler")}`,
-      tags: ["Oracle Apex", "PL/SQL"],
+      tags: ["Oracle Apex", "PL/SQL", "TypeScript"],
       accentColor: "var(--color-accent-3)",
     },
     {
       from: `${t("Juli")} 2025`,
       title: "technology&strategy Group",
       subtitle: `${t("Softwareentwickler")} · ${t("Consultant")}`,
-      tags: ["Consulting", "Full-Stack"],
+      tags: ["Consulting", "Full-Stack", "TypeScript", "React", "Golang", "CI/CD"],
       accentColor: "var(--color-accent)",
     },
   ];

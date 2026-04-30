@@ -1,8 +1,5 @@
 import { forwardRef, useEffect, useState } from "react";
-import Box from "@mui/material/Box";
-import { styled, useTheme } from "@mui/material/styles";
 import "@css/NeonBox.css";
-import useMediaQuery from "@mui/material/useMediaQuery";
 
 interface NeonBoxProps {
   backgroundColor?: string;
@@ -12,61 +9,54 @@ interface NeonBoxProps {
   className?: string;
 }
 
-const StyledNeonBox = styled(Box)(
-  ({
-    backgroundColor,
-    hoverBackgroundColor,
-    margin,
-  }: {
-    backgroundColor?: string;
-    hoverBackgroundColor?: string;
-    margin?: string;
-  }) => ({
-    width: "70%",
-    maxWidth: "500px",
-    minHeight: "150px",
-    marginTop: margin ?? "150px",
-    marginBottom: margin ?? "150px",
-    marginLeft: "70px",
-    marginRight: "70px",
-    border: "double 4px transparent",
-    borderRadius: "16px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    fontSize: "1.2rem",
-    fontWeight: "bold",
-    textAlign: "center",
-    backgroundImage:
-      backgroundColor ??
-      `linear-gradient(black , black),` +
-        `radial-gradient(circle at top left, #ff00ff, #ffff00, #00ffff, #39FF14)`,
-    backgroundOrigin: "border-box",
-    backgroundClip: "content-box, border-box",
-    transition: "all 0.3s ease",
-    "&:hover": {
-      transform: "scale(1.05)", // Skalierung reduziert, um Überlappungen zu vermeiden
-      boxShadow:
-        "0 0 20px rgba(255, 255, 255, 0.6), 0 0 60px rgba(255, 255, 255, 0.8)",
-      backgroundColor: hoverBackgroundColor ?? "#111",
-    },
-  })
-);
-
 const NeonBox = forwardRef<HTMLDivElement, NeonBoxProps>(
-  // eslint-disable-next-line react/prop-types
   ({ backgroundColor, hoverBackgroundColor, margin, children, className }, ref) => {
+    const bg =
+      backgroundColor ??
+      `linear-gradient(black, black), radial-gradient(circle at top left, #ff00ff, #ffff00, #00ffff, #39FF14)`;
 
     return (
-      <StyledNeonBox
+      <div
         ref={ref}
-        margin={margin}
-        backgroundColor={backgroundColor}
-        hoverBackgroundColor={hoverBackgroundColor}
         className={className}
+        style={{
+          width: "70%",
+          maxWidth: "500px",
+          minHeight: "150px",
+          marginTop: margin ?? "150px",
+          marginBottom: margin ?? "150px",
+          marginLeft: "70px",
+          marginRight: "70px",
+          border: "double 4px transparent",
+          borderRadius: "16px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "1.2rem",
+          fontWeight: "bold",
+          textAlign: "center",
+          backgroundImage: bg,
+          backgroundOrigin: "border-box",
+          backgroundClip: "content-box, border-box",
+          transition: "all 0.3s ease",
+          // CSS custom-property trick for hover – handled via onMouseEnter/Leave
+        }}
+        onMouseEnter={(e) => {
+          const el = e.currentTarget;
+          el.style.transform = "scale(1.05)";
+          el.style.boxShadow =
+            "0 0 20px rgba(255,255,255,0.6), 0 0 60px rgba(255,255,255,0.8)";
+          el.style.backgroundColor = hoverBackgroundColor ?? "#111";
+        }}
+        onMouseLeave={(e) => {
+          const el = e.currentTarget;
+          el.style.transform = "";
+          el.style.boxShadow = "";
+          el.style.backgroundColor = "";
+        }}
       >
         {children}
-      </StyledNeonBox>
+      </div>
     );
   }
 );
@@ -75,17 +65,21 @@ NeonBox.displayName = "NeonBox";
 
 export default NeonBox;
 
-
-
 interface LineProps {
   boxRefs: React.RefObject<HTMLDivElement | null>[];
 }
 
 export const NewLine = ({ boxRefs }: LineProps) => {
   const [paths, setPaths] = useState<string[]>([]);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 600);
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  // Native media query – no MUI needed
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 599px)");
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   useEffect(() => {
     const updatePaths = () => {
@@ -109,15 +103,14 @@ export const NewLine = ({ boxRefs }: LineProps) => {
         let endX = endRect.left + endRect.width / 2 - svgRect.left;
         const endY = endRect.top - svgRect.top;
 
-        // Optional: Leichte Verschiebung hinzufügen, wenn Start- und Endpunkte identisch sind
         if (startX === endX && startY === endY) {
-          endX += 1; // Verschieben Sie den Endpunkt um 1 Pixel
+          endX += 1;
         }
 
         const middleY = (startY + endY) / 2;
 
         const d = `
-          M ${startX},${startY} 
+          M ${startX},${startY}
           L ${startX},${middleY}
           L ${endX},${middleY}
           L ${endX},${endY}
@@ -129,18 +122,13 @@ export const NewLine = ({ boxRefs }: LineProps) => {
       setPaths(newPaths);
     };
 
-    const handleResize = () => {
-      updatePaths();
-    };
-
     updatePaths();
-
-    window.addEventListener("resize", handleResize);
-    window.addEventListener("scroll", handleResize);
+    window.addEventListener("resize", updatePaths);
+    window.addEventListener("scroll", updatePaths);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("scroll", handleResize);
+      window.removeEventListener("resize", updatePaths);
+      window.removeEventListener("scroll", updatePaths);
     };
   }, [boxRefs]);
 
@@ -154,8 +142,8 @@ export const NewLine = ({ boxRefs }: LineProps) => {
           id="grad1"
           x1="0%"
           y1="0%"
-          x2={ isMobile ? "0%" : "100%"}
-          y2={ isMobile ? "100%" : undefined}
+          x2={isMobile ? "0%" : "100%"}
+          y2={isMobile ? "100%" : undefined}
           gradientUnits="userSpaceOnUse"
         >
           <stop offset="33.33%" stopColor="#ff00ff" stopOpacity={1} />
@@ -164,14 +152,16 @@ export const NewLine = ({ boxRefs }: LineProps) => {
         </linearGradient>
       </defs>
       {paths.map((d, index) => (
-        <path
-          key={index}
-          d={d}
-          stroke="url(#grad1)"
-          strokeWidth="2"
-          fill="none"
-        />
+        <path key={index} d={d} stroke="url(#grad1)" strokeWidth="2" fill="none" />
       ))}
     </svg>
   );
 };
+
+interface NeonBoxProps {
+  backgroundColor?: string;
+  hoverBackgroundColor?: string;
+  margin?: string;
+  children: React.ReactNode;
+  className?: string;
+}

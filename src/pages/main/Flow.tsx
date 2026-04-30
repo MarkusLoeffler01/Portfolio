@@ -1,9 +1,19 @@
 import React from "react";
 import NeonBox, { NewLine } from "@/components/NeonBox";
-import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTranslation } from "react-i18next";
+
+function useIsSmaller() {
+  const [isSmaller, setIsSmaller] = React.useState(
+    () => window.innerWidth < 768
+  );
+  React.useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const handler = (e: MediaQueryListEvent) => setIsSmaller(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return isSmaller;
+}
 
 function Flow({
   className: _,
@@ -15,6 +25,8 @@ function Flow({
   viewHeight?: number;
 }) {
   const { t } = useTranslation();
+  const isSmaller = useIsSmaller();
+
   const boxData = [
     t("Code in neuem Branch schreiben und pushen"),
     t("Tests schreiben und validieren"),
@@ -34,16 +46,14 @@ function Flow({
     boxData.map(() => React.createRef<HTMLDivElement>())
   );
 
-  const theme = useTheme();
-
-    // Medienabfrage, um die Bildschirmgröße zu ermitteln
-    const isSmaller = useMediaQuery(theme.breakpoints.down("md"));
-
   return (
     <>
-      <Typography variant="h3" className="text-center mt-5">
+      <h3
+        className="text-center mt-5 text-3xl font-bold"
+        style={{ color: "var(--color-text)" }}
+      >
         {t("Entwicklungsprozess")}
-      </Typography>
+      </h3>
       <div className="relative flex flex-col items-center md:grid md:grid-cols-2 md:gap-10">
         <NewLine boxRefs={boxRefs.current} />
         {boxData.map((text, index) => (
