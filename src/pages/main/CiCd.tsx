@@ -338,7 +338,7 @@ export default function CiCd() {
             {t("Automation is Key")}
           </h2>
           <p className="text-base sm:text-lg max-w-2xl mx-auto" style={{ color: "var(--color-text-secondary)" }}>
-            {t("Von der ersten Zeile Code bis zum Live-Deployment – vollständig automatisiert. Kein manuelles Eingreifen, keine Überraschungen.")}
+            {t("Von der ersten Zeile Code bis zum Live-Deployment – vollständig automatisiert. Kein manuelles Eingreifen, keine Überraschungen")}
           </p>
         </motion.div>
 

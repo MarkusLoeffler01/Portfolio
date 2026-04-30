@@ -236,11 +236,11 @@ function BioCard() {
   const myAge = age(new Date("2001-07-31"));
 
   const facts = [
-    { icon: "🎂", label: "Age", value: `${myAge}` },
-    { icon: "💻", label: "JS Experience", value: `${jsYears}+ years` },
-    { icon: "🐧", label: "OS", value: "Linux only" },
-    { icon: "🗾", label: "Learning", value: "日本語" },
-    { icon: "🌍", label: "Politics", value: "Democratic" },
+    { icon: "🎂", label: t("Alter"), value: `${myAge}` },
+    { icon: "💻", label: "JS " + t("Erfahrung"), value: `${jsYears}+ ${t("Jahre")}` },
+    { icon: "🐧", label: t("Betriebssystem"), value: t("Nur Linux") },
+    { icon: "🗾", label: t("Am Lernen"), value: "日本語" },
+    { icon: "🌍", label: t("Politik"), value: t("Democratic") },
     { icon: "🏃", label: "Hobbies", value: "Sports, OSS" },
   ];
 
