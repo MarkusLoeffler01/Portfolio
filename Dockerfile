@@ -8,7 +8,9 @@ WORKDIR /app
 RUN npm i -g typescript pnpm
 
 # Copy only package files first to leverage Docker cache
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+
+RUN pnpm approve-builds --all
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile
