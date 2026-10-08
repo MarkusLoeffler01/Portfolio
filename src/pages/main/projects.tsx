@@ -54,6 +54,17 @@ const useProjects = (): Project[] => {
       status: "live" as const,
     },
     {
+      title: "Ventry",
+      description: t("Eine innovative Plattform für die Verwaltung von Veranstaltungen."),
+      longDescription: t("Erstelle/verwalte oder trete Events bei. Mit Hotels, Veranstaltungsorten/Planer, Bezahlung und mehr."),
+      tags: ["Next.js", "TypeScript", "Node.js", "stripe"],
+      color: "#ff7f50",
+      icon: <span style={{ fontSize: 48 }}>🎉</span>,
+      status: "wip" as const,
+      githubLink: "https://github.com/Ventry-io/Ventry",
+      deploymentLink: "https://ventry.m-loeffler.de",
+    },
+    {
       title: "Coming Soon",
       description: t("Nächstes Projekt in Arbeit – bleib dran."),
       longDescription: t("Immer am Bauen. Schau bald wieder rein oder folge dem GitHub."),
